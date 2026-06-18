@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects - MyTeam Manager</title>
+  <link rel="icon" href="{% static 'img/favicon.png' %}">
+  <link rel="stylesheet" href="{% static 'css/material-dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'css/workspace.css' %}">
+</head>
+<body class="workspace-page">
+  {% include 'includes/module_icons.html' %}
+  {% include 'includes/module_sidebar.html' with active='projects' %}
+
+  <main class="module-main">
+    {% include 'includes/module_topbar.html' with page_title='Projects' search_id='projectSearch' search_placeholder='Search projects...' %}
+
+    <section class="page-heading">
+      <div>
+        <h1>Projects</h1>
+        <p>Plan, track, and review project delivery without leaving the workspace.</p>
+      </div>
+      <div class="heading-actions">
+        <button class="work-button primary-button" type="button" data-open-modal>
+          <svg><use href="#icon-plus"></use></svg>
+          <span>New Project</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="metric-grid" aria-label="Project summary">
+      <article class="metric-card"><div><small>Total Projects</small><strong>24</strong></div><span class="metric-icon"><svg><use href="#icon-folder"></use></svg></span><em>18 active, 6 planned</em></article>
+      <article class="metric-card"><div><small>At Risk</small><strong>3</strong></div><span class="metric-icon orange"><svg><use href="#icon-calendar"></use></svg></span><em>Need review this week</em></article>
+      <article class="metric-card"><div><small>Completed</small><strong>16</strong></div><span class="metric-icon green"><svg><use href="#icon-check"></use></svg></span><em>Closed this month</em></article>
+      <article class="metric-card"><div><small>Avg Progress</small><strong>72%</strong></div><span class="metric-icon blue"><svg><use href="#icon-report"></use></svg></span><em>Across active work</em></article>
+    </section>
+
+    <section class="layout-grid mt-4">
+      <article class="panel">
+        <div class="section-head">
+          <div>
+            <h2>Project Portfolio</h2>
+            <p class="panel-subtitle">Rows open a quick detail drawer. Full task work belongs in Tasks.</p>
+          </div>
+          <a href="{% url 'tasks' %}">View Tasks</a>
+        </div>
+        <div class="filter-strip">
+          <select aria-label="Project status"><option>All Status</option><option>On Track</option><option>At Risk</option><option>In Review</option></select>
+          <select aria-label="Project owner"><option>All Owners</option><option>Sophie Martin</option><option>Michael Chen</option><option>Olivia Davis</option></select>
+          <select aria-label="Project team"><option>All Teams</option><option>Design</option><option>Mobile</option><option>Platform</option></select>
+        </div>
+        <div class="table-responsive">
+          <table class="table data-table align-middle">
+            <thead><tr><th>Project</th><th>Owner</th><th>Team</th><th>Status</th><th>Progress</th><th>Due</th><th></th></tr></thead>
+            <tbody>
+              <tr data-open-drawer data-search-text="design system sophie martin design on track" data-drawer-title="Design System" data-drawer-subtitle="Project" data-drawer-status="On Track" data-drawer-owner="Sophie Martin" data-drawer-due="25 May 2024" data-drawer-detail="Project rows open a quick drawer for status, owner, and next steps. Use Tasks for detailed task changes.">
+                <td><div class="title-cell"><span class="summary-icon"><svg><use href="#icon-folder"></use></svg></span><div><strong>Design System</strong><small>Component audit and wireframes</small></div></div></td>
+                <td>Sophie Martin</td><td>Design</td><td><span class="status-pill status-done">On Track</span></td><td><div class="progress-track"><span style="width: 88%;"></span></div></td><td>25 May</td><td><button class="row-action" type="button"><svg><use href="#icon-more"></use></svg></button></td>
+              </tr>
+              <tr data-open-drawer data-search-text="mobile app michael chen mobile at risk" data-drawer-title="Mobile App" data-drawer-subtitle="Project" data-drawer-status="At Risk" data-drawer-owner="Michael Chen" data-drawer-due="28 May 2024">
+                <td><div class="title-cell"><span class="summary-icon orange"><svg><use href="#icon-task"></use></svg></span><div><strong>Mobile App</strong><small>Auth release and profile pages</small></div></div></td>
+                <td>Michael Chen</td><td>Mobile</td><td><span class="status-pill status-progress">At Risk</span></td><td><div class="progress-track"><span style="width: 64%;"></span></div></td><td>28 May</td><td><button class="row-action" type="button"><svg><use href="#icon-more"></use></svg></button></td>
+              </tr>
+              <tr data-open-drawer data-search-text="e-commerce olivia davis platform on track" data-drawer-title="E-commerce" data-drawer-subtitle="Project" data-drawer-status="On Track" data-drawer-owner="Olivia Davis" data-drawer-due="30 May 2024">
+                <td><div class="title-cell"><span class="summary-icon green"><svg><use href="#icon-check"></use></svg></span><div><strong>E-commerce</strong><small>Payment and checkout workflow</small></div></div></td>
+                <td>Olivia Davis</td><td>Platform</td><td><span class="status-pill status-done">On Track</span></td><td><div class="progress-track"><span style="width: 71%;"></span></div></td><td>30 May</td><td><button class="row-action" type="button"><svg><use href="#icon-more"></use></svg></button></td>
+              </tr>
+              <tr data-open-drawer data-search-text="analytics dashboard james carter data in review" data-drawer-title="Analytics Dashboard" data-drawer-subtitle="Project" data-drawer-status="In Review" data-drawer-owner="James Carter" data-drawer-due="05 Jun 2024">
+                <td><div class="title-cell"><span class="summary-icon blue"><svg><use href="#icon-report"></use></svg></span><div><strong>Analytics Dashboard</strong><small>Report views and exports</small></div></div></td>
+                <td>James Carter</td><td>Data</td><td><span class="status-pill status-review">In Review</span></td><td><div class="progress-track"><span style="width: 72%;"></span></div></td><td>05 Jun</td><td><button class="row-action" type="button"><svg><use href="#icon-more"></use></svg></button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <aside class="side-panel">
+        <div class="section-head">
+          <div>
+            <h2>Review Queue</h2>
+            <p class="panel-subtitle">Project-level decisions</p>
+          </div>
+        </div>
+        <div class="stack-list">
+          <div class="stack-item" data-open-drawer data-drawer-title="Mobile App Risk" data-drawer-subtitle="Project decision" data-drawer-status="Needs owner" data-drawer-owner="Michael Chen" data-drawer-due="Today"><span class="dot orange"></span><div><strong>Resolve auth blocker</strong><small>Mobile App</small></div><span>Today</span></div>
+          <div class="stack-item" data-open-drawer data-drawer-title="Design System Review" data-drawer-subtitle="Project decision" data-drawer-status="Ready" data-drawer-owner="Sophie Martin" data-drawer-due="Tomorrow"><span class="dot blue"></span><div><strong>Approve token naming</strong><small>Design System</small></div><span>Tomorrow</span></div>
+          <div class="stack-item"><span class="dot green"></span><div><strong>Checkout scope accepted</strong><small>E-commerce</small></div><span>Done</span></div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  {% include 'includes/workspace_drawer.html' %}
+  {% include 'includes/workspace_modal.html' with modal_title='New Project' name_placeholder='Project name' owner_placeholder='Project owner' notes_placeholder='Project goal and first milestone' modal_action='Create Project' %}
+
+  <script src="{% static 'js/core/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'js/workspace.js' %}"></script>
+</body>
+</html>

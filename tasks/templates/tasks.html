@@ -1,0 +1,410 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tasks - MyTeam Manager</title>
+  <link rel="icon" href="{% static 'img/favicon.png' %}">
+  <link rel="stylesheet" href="{% static 'css/material-dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'css/tasks.css' %}">
+</head>
+<body class="tasks-page">
+  <svg class="icon-sprite" aria-hidden="true" focusable="false">
+    <symbol id="icon-logo" viewBox="0 0 24 24">
+      <path d="M8.5 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8Zm0-2a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm7.5.5a3.25 3.25 0 1 1 0-6.5 3.25 3.25 0 0 1 0 6.5Zm0-2a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5ZM2.5 20c0-3.1 2.69-5.5 6-5.5s6 2.4 6 5.5v1h-12v-1Zm2.25-1h7.5c-.47-1.43-1.9-2.5-3.75-2.5S5.22 17.57 4.75 19Zm11.35 2a7.86 7.86 0 0 0-.8-3.51 5.24 5.24 0 0 0-1.2-1.57c.61-.27 1.3-.42 2-.42 3.05 0 5.4 2.2 5.4 5.1v.4h-5.4Z"/>
+    </symbol>
+    <symbol id="icon-dashboard" viewBox="0 0 24 24">
+      <path d="M4 4h6v6H4V4Zm10 0h6v6h-6V4ZM4 14h6v6H4v-6Zm10 0h6v6h-6v-6Z"/>
+    </symbol>
+    <symbol id="icon-users" viewBox="0 0 24 24">
+      <path d="M8.5 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8Zm0-2a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm7.5.5a3.25 3.25 0 1 1 0-6.5 3.25 3.25 0 0 1 0 6.5Zm0-2a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5ZM2.5 20c0-3.1 2.69-5.5 6-5.5s6 2.4 6 5.5v1h-12v-1Zm2.25-1h7.5c-.47-1.43-1.9-2.5-3.75-2.5S5.22 17.57 4.75 19Zm11.35 2a7.86 7.86 0 0 0-.8-3.51 5.24 5.24 0 0 0-1.2-1.57c.61-.27 1.3-.42 2-.42 3.05 0 5.4 2.2 5.4 5.1v.4h-5.4Z"/>
+    </symbol>
+    <symbol id="icon-folder" viewBox="0 0 24 24">
+      <path d="M3 6.5A2.5 2.5 0 0 1 5.5 4h4.1l2 2H18.5A2.5 2.5 0 0 1 21 8.5v9A2.5 2.5 0 0 1 18.5 20h-13A2.5 2.5 0 0 1 3 17.5v-11Zm2.5-.5a.5.5 0 0 0-.5.5v11a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-7.73l-2-2H5.5Z"/>
+    </symbol>
+    <symbol id="icon-task" viewBox="0 0 24 24">
+      <path d="M7.5 4h9A2.5 2.5 0 0 1 19 6.5v11a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 5 17.5v-11A2.5 2.5 0 0 1 7.5 4Zm0 2a.5.5 0 0 0-.5.5v11a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-11a.5.5 0 0 0-.5-.5h-9Zm3.15 8.1 4.95-4.95 1.4 1.4-6.35 6.35-3.25-3.25 1.4-1.4 1.85 1.85Z"/>
+    </symbol>
+    <symbol id="icon-calendar" viewBox="0 0 24 24">
+      <path d="M7 2h2v2h6V2h2v2h2.5A2.5 2.5 0 0 1 22 6.5v12A2.5 2.5 0 0 1 19.5 21h-15A2.5 2.5 0 0 1 2 18.5v-12A2.5 2.5 0 0 1 4.5 4H7V2ZM4 9v9.5c0 .28.22.5.5.5h15a.5.5 0 0 0 .5-.5V9H4Zm.5-3a.5.5 0 0 0-.5.5V7h16v-.5a.5.5 0 0 0-.5-.5h-15Z"/>
+    </symbol>
+    <symbol id="icon-report" viewBox="0 0 24 24">
+      <path d="M5 20V9h3v11H5Zm5.5 0V4h3v16h-3Zm5.5 0v-7h3v7h-3Z"/>
+    </symbol>
+    <symbol id="icon-settings" viewBox="0 0 24 24">
+      <path d="m19.14 12.94.03-.94-.03-.94 2.03-1.58-2-3.46-2.39.96a7.8 7.8 0 0 0-1.63-.94L14.8 3.5h-5.6l-.35 2.54c-.58.23-1.12.54-1.63.94l-2.39-.96-2 3.46 2.03 1.58-.03.94.03.94-2.03 1.58 2 3.46 2.39-.96c.5.4 1.05.71 1.63.94l.35 2.54h5.6l.35-2.54c.58-.23 1.12-.54 1.63-.94l2.39.96 2-3.46-2.03-1.58ZM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0-2a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"/>
+    </symbol>
+    <symbol id="icon-bell" viewBox="0 0 24 24">
+      <path d="M12 22a2.75 2.75 0 0 0 2.58-1.8H9.42A2.75 2.75 0 0 0 12 22Zm-7-5h14l-1.5-2.5V10a5.5 5.5 0 0 0-4.5-5.4V3a1 1 0 1 0-2 0v1.6A5.5 5.5 0 0 0 6.5 10v4.5L5 17Zm3.5-2V10a3.5 3.5 0 1 1 7 0v5l.6 1h-8.2l.6-1Z"/>
+    </symbol>
+    <symbol id="icon-user" viewBox="0 0 24 24">
+      <path d="M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm0-2a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5ZM4 21v-1.4C4 16.48 7.58 14 12 14s8 2.48 8 5.6V21H4Zm2.3-2h11.4c-.5-1.72-2.78-3-5.7-3s-5.2 1.28-5.7 3Z"/>
+    </symbol>
+    <symbol id="icon-login" viewBox="0 0 24 24">
+      <path d="M13 4h6a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-6v-2h5V6h-5V4ZM4 11h9.6L10.3 7.7l1.4-1.4L17.4 12l-5.7 5.7-1.4-1.4 3.3-3.3H4v-2Z"/>
+    </symbol>
+    <symbol id="icon-search" viewBox="0 0 24 24">
+      <path d="M10.5 4a6.5 6.5 0 0 1 5.18 10.43l4.45 4.44-1.42 1.42-4.44-4.45A6.5 6.5 0 1 1 10.5 4Zm0 2a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9Z"/>
+    </symbol>
+    <symbol id="icon-star" viewBox="0 0 24 24">
+      <path d="m12 3 2.74 5.55 6.12.89-4.43 4.32 1.05 6.1L12 16.98l-5.48 2.88 1.05-6.1-4.43-4.32 6.12-.89L12 3Zm0 4.52-1.42 2.88-3.18.46 2.3 2.25-.54 3.17L12 14.78l2.84 1.5-.54-3.17 2.3-2.25-3.18-.46L12 7.52Z"/>
+    </symbol>
+    <symbol id="icon-plus" viewBox="0 0 24 24">
+      <path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6V5Z"/>
+    </symbol>
+    <symbol id="icon-filter" viewBox="0 0 24 24">
+      <path d="M3 5h18l-7 8v5l-4 2v-7L3 5Zm4.4 2 4.6 5.2V17l.2-.1v-4.7L16.6 7H7.4Z"/>
+    </symbol>
+    <symbol id="icon-export" viewBox="0 0 24 24">
+      <path d="M5 5h5v2H7v10h10v-3h2v5H5V5Zm8 0h6v6h-2V8.4l-6.3 6.3-1.4-1.4L15.6 7H13V5Z"/>
+    </symbol>
+    <symbol id="icon-clock" viewBox="0 0 24 24">
+      <path d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20Zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm1-13v4.6l3.2 3.2-1.4 1.4-3.8-3.8V7h2Z"/>
+    </symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24">
+      <path d="M10.1 15.8 5.9 11.6l-1.4 1.4 5.6 5.6 9.9-9.9-1.4-1.4-8.5 8.5Z"/>
+    </symbol>
+    <symbol id="icon-more" viewBox="0 0 24 24">
+      <path d="M6 10.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
+    </symbol>
+  </svg>
+
+  <aside class="tasks-sidebar">
+    <a class="brand" href="{% url 'dashboard' %}">
+      <span class="brand-icon"><svg><use href="#icon-logo"></use></svg></span>
+      <span>MyTeam Manager</span>
+    </a>
+
+    <nav class="sidebar-nav" aria-label="Tasks navigation">
+      <a class="nav-link" href="{% url 'dashboard' %}">
+        <svg><use href="#icon-dashboard"></use></svg>
+        <span>Dashboard</span>
+      </a>
+      <a class="nav-link" href="{% url 'teams' %}">
+        <svg><use href="#icon-users"></use></svg>
+        <span>Teams</span>
+      </a>
+      <a class="nav-link" href="{% url 'projects' %}">
+        <svg><use href="#icon-folder"></use></svg>
+        <span>Projects</span>
+      </a>
+      <a class="nav-link active" href="{% url 'tasks' %}">
+        <svg><use href="#icon-task"></use></svg>
+        <span>Tasks</span>
+      </a>
+      <a class="nav-link" href="{% url 'calendar' %}">
+        <svg><use href="#icon-calendar"></use></svg>
+        <span>Calendar</span>
+      </a>
+      <a class="nav-link" href="{% url 'reports' %}">
+        <svg><use href="#icon-report"></use></svg>
+        <span>Reports</span>
+      </a>
+      <a class="nav-link" href="{% url 'settings' %}">
+        <svg><use href="#icon-settings"></use></svg>
+        <span>Settings</span>
+      </a>
+      <a class="nav-link" href="{% url 'notifications' %}">
+        <svg><use href="#icon-bell"></use></svg>
+        <span>Notifications</span>
+      </a>
+    </nav>
+
+    <nav class="sidebar-account" aria-label="Account navigation">
+      <p class="nav-section">Account Pages</p>
+      <a class="nav-link" href="{% url 'profile' %}">
+        <svg><use href="#icon-user"></use></svg>
+        <span>Profile</span>
+      </a>
+      <a class="nav-link" href="{% url 'sign_in' %}">
+        <svg><use href="#icon-login"></use></svg>
+        <span>Sign In</span>
+      </a>
+      <a class="nav-link" href="{% url 'sign_up' %}">
+        <svg><use href="#icon-task"></use></svg>
+        <span>Sign Up</span>
+      </a>
+    </nav>
+  </aside>
+
+  <main class="tasks-main">
+    <header class="tasks-topbar">
+      <div class="breadcrumb-wrap">
+        <span>Pages</span>
+        <span>/</span>
+        <strong>Tasks</strong>
+      </div>
+
+      <div class="topbar-actions">
+        <label class="search-box" for="taskSearch">
+          <svg><use href="#icon-search"></use></svg>
+          <input id="taskSearch" type="search" placeholder="Type here..." autocomplete="off">
+        </label>
+        <button class="btn btn-outline-primary builder-button" type="button">Online Builder</button>
+        <button class="star-button" type="button">
+          <svg><use href="#icon-star"></use></svg>
+          <span>Star</span>
+          <strong>11,925</strong>
+        </button>
+        <a class="icon-button" href="{% url 'settings' %}" aria-label="Settings"><svg><use href="#icon-settings"></use></svg></a>
+        <a class="icon-button" href="{% url 'notifications' %}" aria-label="Notifications"><svg><use href="#icon-bell"></use></svg></a>
+        <a class="icon-button" href="{% url 'profile' %}" aria-label="Profile"><svg><use href="#icon-user"></use></svg></a>
+      </div>
+    </header>
+
+    <section class="page-heading">
+      <div>
+        <h1>Tasks</h1>
+        <p>Create, assign and track tasks across your projects.</p>
+      </div>
+      <div class="heading-actions">
+        <button class="btn btn-dark" type="button">
+          <svg><use href="#icon-plus"></use></svg>
+          <span>Add Task</span>
+        </button>
+        <button class="btn export-button" type="button">
+          <svg><use href="#icon-export"></use></svg>
+          <span>Export</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="tasks-layout">
+      <div class="tasks-content">
+        <section class="filter-card" aria-label="Task filters">
+          <select id="projectFilter" aria-label="Project filter">
+            <option value="">All Projects</option>
+            <option value="design-system">Design System</option>
+            <option value="mobile-app">Mobile App</option>
+            <option value="e-commerce">E-commerce</option>
+            <option value="analytics-dashboard">Analytics Dashboard</option>
+            <option value="website-redesign">Website Redesign</option>
+          </select>
+          <select id="statusFilter" aria-label="Status filter">
+            <option value="">All Status</option>
+            <option value="in-progress">In Progress</option>
+            <option value="to-do">To Do</option>
+            <option value="in-review">In Review</option>
+            <option value="completed">Completed</option>
+          </select>
+          <select id="priorityFilter" aria-label="Priority filter">
+            <option value="">All Priority</option>
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
+          </select>
+          <select id="assigneeFilter" aria-label="Assignee filter">
+            <option value="">All Assignees</option>
+            <option value="sophie-martin">Sophie Martin</option>
+            <option value="michael-chen">Michael Chen</option>
+            <option value="olivia-davis">Olivia Davis</option>
+            <option value="daniel-lee">Daniel Lee</option>
+            <option value="james-carter">James Carter</option>
+            <option value="isabella-nguyen">Isabella Nguyen</option>
+            <option value="emma-wilson">Emma Wilson</option>
+          </select>
+          <select id="dueFilter" aria-label="Due date filter">
+            <option value="">Due Date</option>
+            <option value="may-2024">May 2024</option>
+            <option value="jun-2024">June 2024</option>
+          </select>
+          <button class="btn filter-button" type="button" data-filter-trigger>
+            <svg><use href="#icon-filter"></use></svg>
+            <span>Filter</span>
+          </button>
+          <button class="reset-button" type="button" data-filter-reset>Reset</button>
+        </section>
+
+        <section class="tasks-card">
+          <div class="tasks-card-head">
+            <div>
+              <h2>All Tasks</h2>
+              <p><span data-visible-count>8</span> of 24 tasks</p>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table tasks-table align-middle">
+              <thead>
+                <tr>
+                  <th><input type="checkbox" aria-label="Select all tasks"></th>
+                  <th>Task</th>
+                  <th>Project</th>
+                  <th>Assignee</th>
+                  <th>Priority</th>
+                  <th>Status</th>
+                  <th>Due Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-task-row data-search-text="design system wireframes create wireframes new design sophie martin design system high in progress" data-project="design-system" data-status="in-progress" data-priority="high" data-assignee="sophie-martin" data-due="may-2024">
+                  <td><input type="checkbox" aria-label="Select Design System Wireframes"></td>
+                  <td><strong>Design System Wireframes</strong><small>Create wireframes for the new design</small></td>
+                  <td><span class="project-pill design">Design System</span></td>
+                  <td><img src="{% static 'img/team-2.jpg' %}" alt="Sophie Martin">Sophie Martin</td>
+                  <td><span class="badge-pill high">High</span></td>
+                  <td><span class="badge-pill progress-status">In Progress</span></td>
+                  <td>25 May 2024</td>
+                  <td><button class="row-action" type="button" aria-label="Task actions"><svg><use href="#icon-more"></use></svg></button></td>
+                </tr>
+                <tr data-task-row data-search-text="implement authentication login signup michael chen mobile app high in progress" data-project="mobile-app" data-status="in-progress" data-priority="high" data-assignee="michael-chen" data-due="may-2024">
+                  <td><input type="checkbox" aria-label="Select Implement Authentication"></td>
+                  <td><strong>Implement Authentication</strong><small>Add login and signup functionality</small></td>
+                  <td><span class="project-pill mobile">Mobile App</span></td>
+                  <td><img src="{% static 'img/bruce-mars.jpg' %}" alt="Michael Chen">Michael Chen</td>
+                  <td><span class="badge-pill high">High</span></td>
+                  <td><span class="badge-pill progress-status">In Progress</span></td>
+                  <td>22 May 2024</td>
+                  <td><button class="row-action" type="button" aria-label="Task actions"><svg><use href="#icon-more"></use></svg></button></td>
+                </tr>
+                <tr data-task-row data-search-text="api integration payment gateway olivia davis e-commerce medium to do" data-project="e-commerce" data-status="to-do" data-priority="medium" data-assignee="olivia-davis" data-due="may-2024">
+                  <td><input type="checkbox" aria-label="Select API Integration"></td>
+                  <td><strong>API Integration</strong><small>Integrate with payment gateway</small></td>
+                  <td><span class="project-pill ecommerce">E-commerce</span></td>
+                  <td><img src="{% static 'img/ivana-square.jpg' %}" alt="Olivia Davis">Olivia Davis</td>
+                  <td><span class="badge-pill medium">Medium</span></td>
+                  <td><span class="badge-pill todo-status">To Do</span></td>
+                  <td>30 May 2024</td>
+                  <td><button class="row-action" type="button" aria-label="Task actions"><svg><use href="#icon-more"></use></svg></button></td>
+                </tr>
+                <tr data-task-row data-search-text="user profile page settings daniel lee mobile app medium to do" data-project="mobile-app" data-status="to-do" data-priority="medium" data-assignee="daniel-lee" data-due="may-2024">
+                  <td><input type="checkbox" aria-label="Select User Profile Page"></td>
+                  <td><strong>User Profile Page</strong><small>Create user profile and settings page</small></td>
+                  <td><span class="project-pill mobile">Mobile App</span></td>
+                  <td><img src="{% static 'img/team-4.jpg' %}" alt="Daniel Lee">Daniel Lee</td>
+                  <td><span class="badge-pill medium">Medium</span></td>
+                  <td><span class="badge-pill todo-status">To Do</span></td>
+                  <td>28 May 2024</td>
+                  <td><button class="row-action" type="button" aria-label="Task actions"><svg><use href="#icon-more"></use></svg></button></td>
+                </tr>
+                <tr data-task-row data-search-text="database optimization queries indexes james carter analytics dashboard low in review" data-project="analytics-dashboard" data-status="in-review" data-priority="low" data-assignee="james-carter" data-due="may-2024">
+                  <td><input type="checkbox" aria-label="Select Database Optimization"></td>
+                  <td><strong>Database Optimization</strong><small>Optimize database queries and indexes</small></td>
+                  <td><span class="project-pill analytics">Analytics Dashboard</span></td>
+                  <td><img src="{% static 'img/drake.jpg' %}" alt="James Carter">James Carter</td>
+                  <td><span class="badge-pill low">Low</span></td>
+                  <td><span class="badge-pill review-status">In Review</span></td>
+                  <td>20 May 2024</td>
+                  <td><button class="row-action" type="button" aria-label="Task actions"><svg><use href="#icon-more"></use></svg></button></td>
+                </tr>
+                <tr data-task-row data-search-text="bug fixes login issue mobile devices isabella nguyen mobile app high completed" data-project="mobile-app" data-status="completed" data-priority="high" data-assignee="isabella-nguyen" data-due="may-2024">
+                  <td><input type="checkbox" aria-label="Select Bug Fixes Login Issue"></td>
+                  <td><strong>Bug Fixes - Login Issue</strong><small>Fix login issues on mobile devices</small></td>
+                  <td><span class="project-pill mobile">Mobile App</span></td>
+                  <td><img src="{% static 'img/team-1.jpg' %}" alt="Isabella Nguyen">Isabella Nguyen</td>
+                  <td><span class="badge-pill high">High</span></td>
+                  <td><span class="badge-pill completed-status">Completed</span></td>
+                  <td>15 May 2024</td>
+                  <td><button class="row-action" type="button" aria-label="Task actions"><svg><use href="#icon-more"></use></svg></button></td>
+                </tr>
+                <tr data-task-row data-search-text="create landing page website redesign emma wilson medium completed" data-project="website-redesign" data-status="completed" data-priority="medium" data-assignee="emma-wilson" data-due="may-2024">
+                  <td><input type="checkbox" aria-label="Select Create Landing Page"></td>
+                  <td><strong>Create Landing Page</strong><small>Design and implement landing page</small></td>
+                  <td><span class="project-pill website">Website Redesign</span></td>
+                  <td><img src="{% static 'img/team-5.jpg' %}" alt="Emma Wilson">Emma Wilson</td>
+                  <td><span class="badge-pill medium">Medium</span></td>
+                  <td><span class="badge-pill completed-status">Completed</span></td>
+                  <td>10 May 2024</td>
+                  <td><button class="row-action" type="button" aria-label="Task actions"><svg><use href="#icon-more"></use></svg></button></td>
+                </tr>
+                <tr data-task-row data-search-text="write unit tests core functions michael chen e-commerce low to do" data-project="e-commerce" data-status="to-do" data-priority="low" data-assignee="michael-chen" data-due="jun-2024">
+                  <td><input type="checkbox" aria-label="Select Write Unit Tests"></td>
+                  <td><strong>Write Unit Tests</strong><small>Add unit tests for core functions</small></td>
+                  <td><span class="project-pill ecommerce">E-commerce</span></td>
+                  <td><img src="{% static 'img/bruce-mars.jpg' %}" alt="Michael Chen">Michael Chen</td>
+                  <td><span class="badge-pill low">Low</span></td>
+                  <td><span class="badge-pill todo-status">To Do</span></td>
+                  <td>05 Jun 2024</td>
+                  <td><button class="row-action" type="button" aria-label="Task actions"><svg><use href="#icon-more"></use></svg></button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="table-footer">
+            <span>Showing <span data-visible-range>1 to 8</span> of 24 tasks</span>
+            <nav class="pagination-nav" aria-label="Task pages">
+              <a href="#" aria-label="Previous page">&lt;</a>
+              <a class="active" href="#">1</a>
+              <a href="#">2</a>
+              <a href="#">3</a>
+              <a href="#" aria-label="Next page">&gt;</a>
+            </nav>
+          </div>
+        </section>
+      </div>
+
+      <aside class="tasks-rail" aria-label="Task insights">
+        <section class="rail-card summary-card">
+          <h2>Task Summary</h2>
+          <div class="summary-item pink">
+            <span><svg><use href="#icon-task"></use></svg></span>
+            <div><strong>24</strong><small>Total Tasks</small></div>
+          </div>
+          <div class="summary-item orange">
+            <span><svg><use href="#icon-clock"></use></svg></span>
+            <div><strong>8</strong><small>In Progress</small></div>
+          </div>
+          <div class="summary-item green">
+            <span><svg><use href="#icon-check"></use></svg></span>
+            <div><strong>7</strong><small>Completed</small></div>
+          </div>
+        </section>
+
+        <section class="rail-card status-card">
+          <h2>Tasks by Status</h2>
+          <div class="status-chart">
+            <div class="donut-chart" aria-label="Tasks by status chart"></div>
+            <ul class="status-legend">
+              <li><span class="orange"></span>In Progress <em>8 (33.3%)</em></li>
+              <li><span class="gray"></span>To Do <em>6 (25.0%)</em></li>
+              <li><span class="purple"></span>In Review <em>3 (12.5%)</em></li>
+              <li><span class="green"></span>Completed <em>7 (29.2%)</em></li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="rail-card deadlines-card">
+          <h2>Upcoming Deadlines</h2>
+          <article>
+            <div>
+              <strong>Design System Wireframes</strong>
+              <small>Design System</small>
+            </div>
+            <div>
+              <time>25 May 2024</time>
+              <span class="high-text">High</span>
+            </div>
+          </article>
+          <article>
+            <div>
+              <strong>Implement Authentication</strong>
+              <small>Mobile App</small>
+            </div>
+            <div>
+              <time>22 May 2024</time>
+              <span class="high-text">High</span>
+            </div>
+          </article>
+          <article>
+            <div>
+              <strong>API Integration</strong>
+              <small>E-commerce</small>
+            </div>
+            <div>
+              <time>30 May 2024</time>
+              <span class="medium-text">Medium</span>
+            </div>
+          </article>
+          <a class="view-all-link" href="#">View All Tasks</a>
+        </section>
+      </aside>
+    </section>
+  </main>
+
+  <script src="{% static 'js/core/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'js/tasks.js' %}"></script>
+</body>
+</html>

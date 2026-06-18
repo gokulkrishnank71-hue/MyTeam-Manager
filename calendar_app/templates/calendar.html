@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendar - MyTeam Manager</title>
+  <link rel="icon" href="{% static 'img/favicon.png' %}">
+  <link rel="stylesheet" href="{% static 'css/material-dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'css/module-pages.css' %}">
+</head>
+<body class="module-page calendar-page">
+  {% include 'includes/module_icons.html' %}
+  {% include 'includes/module_sidebar.html' with active='calendar' %}
+
+  <main class="module-main">
+    {% include 'includes/module_topbar.html' with page_title='Calendar' search_id='calendarSearch' %}
+
+    <section class="page-heading">
+      <div>
+        <h1>Calendar</h1>
+        <p>View and manage your schedule, meetings and deadlines.</p>
+      </div>
+    </section>
+
+    <section class="calendar-card">
+      <div class="calendar-toolbar">
+        <div class="calendar-controls">
+          <button type="button">Today</button>
+          <button class="icon-control" type="button" aria-label="Previous month">&lt;</button>
+          <button class="icon-control" type="button" aria-label="Next month">&gt;</button>
+          <strong>May 2024 <svg><use href="#icon-chevron"></use></svg></strong>
+        </div>
+        <div class="calendar-actions">
+          <div class="segmented-control" aria-label="Calendar view">
+            <button class="active" type="button">Month</button>
+            <button type="button">Week</button>
+            <button type="button">Day</button>
+          </div>
+          <button class="btn btn-dark add-event-button" type="button">
+            <svg><use href="#icon-plus"></use></svg>
+            <span>Add Event</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="calendar-grid" aria-label="May 2024 calendar">
+        <div class="weekday">Sun</div>
+        <div class="weekday">Mon</div>
+        <div class="weekday">Tue</div>
+        <div class="weekday">Wed</div>
+        <div class="weekday">Thu</div>
+        <div class="weekday">Fri</div>
+        <div class="weekday">Sat</div>
+
+        <article class="day muted"><span>28</span></article>
+        <article class="day muted"><span>29</span></article>
+        <article class="day muted"><span>30</span></article>
+        <article class="day"><span>1</span><p class="event green"><strong>10:00 AM</strong>Team Standup</p></article>
+        <article class="day"><span>2</span></article>
+        <article class="day"><span>3</span><p class="event pink"><strong>03:00 PM</strong>Project Review</p></article>
+        <article class="day"><span>4</span></article>
+
+        <article class="day"><span>5</span></article>
+        <article class="day"><span>6</span></article>
+        <article class="day"><span>7</span><p class="event purple"><strong>11:00 AM</strong>Design Sync</p></article>
+        <article class="day"><span>8</span></article>
+        <article class="day"><span>9</span><p class="event orange"><strong>02:00 PM</strong>Client Meeting</p></article>
+        <article class="day"><span>10</span></article>
+        <article class="day"><span>11</span></article>
+
+        <article class="day"><span>12</span></article>
+        <article class="day"><span>13</span><p class="event blue"><strong>10:30 AM</strong>Sprint Planning</p></article>
+        <article class="day"><span>14</span></article>
+        <article class="day today"><span>15</span><p class="event pink"><strong>11:00 AM</strong>Product Demo</p></article>
+        <article class="day"><span>16</span></article>
+        <article class="day"><span>17</span><p class="event purple"><strong>04:00 PM</strong>Retrospective</p></article>
+        <article class="day"><span>18</span></article>
+
+        <article class="day"><span>19</span></article>
+        <article class="day"><span>20</span></article>
+        <article class="day"><span>21</span><p class="event orange"><strong>02:00 PM</strong>Stakeholder Call</p></article>
+        <article class="day"><span>22</span></article>
+        <article class="day"><span>23</span><p class="event blue"><strong>11:00 AM</strong>QA Review</p></article>
+        <article class="day"><span>24</span></article>
+        <article class="day"><span>25</span></article>
+
+        <article class="day"><span>26</span></article>
+        <article class="day"><span>27</span><p class="event green">Memorial Day</p></article>
+        <article class="day"><span>28</span></article>
+        <article class="day"><span>29</span><p class="event purple"><strong>12:00 PM</strong>Monthly Review</p></article>
+        <article class="day"><span>30</span></article>
+        <article class="day"><span>31</span></article>
+        <article class="day muted"><span>1</span></article>
+      </div>
+    </section>
+  </main>
+
+  <script src="{% static 'js/core/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'js/module-pages.js' %}"></script>
+</body>
+</html>

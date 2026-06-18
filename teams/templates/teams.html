@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teams - MyTeam Manager</title>
+  <link rel="icon" href="{% static 'img/favicon.png' %}">
+  <link rel="stylesheet" href="{% static 'css/material-dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'css/workspace.css' %}">
+</head>
+<body class="workspace-page">
+  {% include 'includes/module_icons.html' %}
+  {% include 'includes/module_sidebar.html' with active='teams' %}
+
+  <main class="module-main">
+    {% include 'includes/module_topbar.html' with page_title='Teams' search_id='teamSearch' search_placeholder='Search members...' %}
+
+    <section class="page-heading">
+      <div>
+        <h1>Teams</h1>
+        <p>Manage members, roles, availability, and team capacity.</p>
+      </div>
+      <button class="work-button primary-button" type="button" data-open-modal>
+        <svg><use href="#icon-plus"></use></svg>
+        <span>Invite Member</span>
+      </button>
+    </section>
+
+    <section class="layout-grid">
+      <article class="panel">
+        <div class="section-head">
+          <div>
+            <h2>Member Directory</h2>
+            <p class="panel-subtitle">Click a member to view role and workload details.</p>
+          </div>
+        </div>
+        <div class="filter-strip">
+          <select aria-label="Role filter"><option>All Roles</option><option>Designer</option><option>Engineer</option><option>Manager</option></select>
+          <select aria-label="Department filter"><option>Department</option><option>Design</option><option>Mobile</option><option>Platform</option></select>
+          <select aria-label="Availability filter"><option>Availability</option><option>Available</option><option>Busy</option><option>Offline</option></select>
+        </div>
+        <div class="table-responsive">
+          <table class="table data-table align-middle">
+            <thead><tr><th>Member</th><th>Role</th><th>Team</th><th>Workload</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr data-open-drawer data-search-text="sophie martin designer design available" data-drawer-title="Sophie Martin" data-drawer-subtitle="Product Designer" data-drawer-status="Available" data-drawer-owner="Design Team" data-drawer-due="76% workload">
+                <td><div class="person-cell"><img src="{% static 'img/team-2.jpg' %}" alt="Sophie Martin"><div><strong>Sophie Martin</strong><small>sophie.martin@example.com</small></div></div></td>
+                <td>Designer</td><td>Design</td><td><div class="progress-track"><span style="width: 76%;"></span></div></td><td><span class="status-pill status-online">Available</span></td><td><button class="row-action" type="button"><svg><use href="#icon-more"></use></svg></button></td>
+              </tr>
+              <tr data-open-drawer data-search-text="michael chen engineer mobile available" data-drawer-title="Michael Chen" data-drawer-subtitle="Mobile Engineer" data-drawer-status="Available" data-drawer-owner="Mobile Team" data-drawer-due="58% workload">
+                <td><div class="person-cell"><img src="{% static 'img/bruce-mars.jpg' %}" alt="Michael Chen"><div><strong>Michael Chen</strong><small>michael.chen@example.com</small></div></div></td>
+                <td>Engineer</td><td>Mobile</td><td><div class="progress-track"><span style="width: 58%;"></span></div></td><td><span class="status-pill status-online">Available</span></td><td><button class="row-action" type="button"><svg><use href="#icon-more"></use></svg></button></td>
+              </tr>
+              <tr data-open-drawer data-search-text="olivia davis engineer platform busy" data-drawer-title="Olivia Davis" data-drawer-subtitle="Platform Engineer" data-drawer-status="Busy" data-drawer-owner="Platform Team" data-drawer-due="92% workload">
+                <td><div class="person-cell"><img src="{% static 'img/ivana-square.jpg' %}" alt="Olivia Davis"><div><strong>Olivia Davis</strong><small>olivia.davis@example.com</small></div></div></td>
+                <td>Engineer</td><td>Platform</td><td><div class="progress-track"><span style="width: 92%;"></span></div></td><td><span class="status-pill status-progress">Busy</span></td><td><button class="row-action" type="button"><svg><use href="#icon-more"></use></svg></button></td>
+              </tr>
+              <tr data-open-drawer data-search-text="daniel lee manager operations offline" data-drawer-title="Daniel Lee" data-drawer-subtitle="Operations Manager" data-drawer-status="Offline" data-drawer-owner="Operations" data-drawer-due="44% workload">
+                <td><div class="person-cell"><img src="{% static 'img/team-4.jpg' %}" alt="Daniel Lee"><div><strong>Daniel Lee</strong><small>daniel.lee@example.com</small></div></div></td>
+                <td>Manager</td><td>Operations</td><td><div class="progress-track"><span style="width: 44%;"></span></div></td><td><span class="status-pill status-offline">Offline</span></td><td><button class="row-action" type="button"><svg><use href="#icon-more"></use></svg></button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <aside class="side-panel">
+        <div class="section-head">
+          <div>
+            <h2>Team Capacity</h2>
+            <p class="panel-subtitle">Where attention is needed</p>
+          </div>
+        </div>
+        <div class="stack-list">
+          <div class="stack-item"><span class="dot green"></span><div><strong>Design</strong><small>4 members, healthy load</small></div><span>72%</span></div>
+          <div class="stack-item"><span class="dot orange"></span><div><strong>Platform</strong><small>Olivia near capacity</small></div><span>88%</span></div>
+          <div class="stack-item"><span class="dot blue"></span><div><strong>Mobile</strong><small>Release support ready</small></div><span>61%</span></div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  {% include 'includes/workspace_drawer.html' %}
+  {% include 'includes/workspace_modal.html' with modal_title='Invite Member' name_placeholder='Member email' owner_placeholder='Role or team' notes_placeholder='Invite note' modal_action='Send Invite' %}
+
+  <script src="{% static 'js/core/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'js/workspace.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifications - MyTeam Manager</title>
+  <link rel="icon" href="{% static 'img/favicon.png' %}">
+  <link rel="stylesheet" href="{% static 'css/material-dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'css/module-pages.css' %}">
+</head>
+<body class="module-page notifications-page">
+  {% include 'includes/module_icons.html' %}
+  {% include 'includes/module_sidebar.html' with active='notifications' %}
+
+  <main class="module-main">
+    {% include 'includes/module_topbar.html' with page_title='Notifications' search_id='notificationSearch' %}
+
+    <section class="page-heading">
+      <div>
+        <h1>Notifications</h1>
+        <p>Stay updated with important activities and alerts.</p>
+      </div>
+      <div class="heading-actions">
+        <button class="btn ghost-button" type="button" data-mark-read>Mark all as read</button>
+        <button class="icon-button framed" type="button" aria-label="Notification settings"><svg><use href="#icon-settings"></use></svg></button>
+      </div>
+    </section>
+
+    <section class="notifications-layout">
+      <nav class="notification-tabs" aria-label="Notification categories">
+        <button class="active" type="button" data-notification-filter="all">All Notifications <span>24</span></button>
+        <button type="button" data-notification-filter="mentions">Mentions <span>6</span></button>
+        <button type="button" data-notification-filter="tasks">Tasks <span>8</span></button>
+        <button type="button" data-notification-filter="projects">Projects <span>5</span></button>
+        <button type="button" data-notification-filter="team">Team <span>3</span></button>
+        <button type="button" data-notification-filter="system">System <span>2</span></button>
+      </nav>
+
+      <section class="notification-list" aria-label="Notifications list">
+        <article data-notification-item data-category="team">
+          <span class="notification-icon green"><svg><use href="#icon-users"></use></svg></span>
+          <div><strong>Emma Wilson joined the team</strong></div>
+          <time>Today, 10:30 AM</time>
+          <i class="unread-dot"></i>
+        </article>
+        <article data-notification-item data-category="projects">
+          <span class="notification-icon blue"><svg><use href="#icon-folder"></use></svg></span>
+          <div><strong>New project "Design System" was created</strong></div>
+          <time>Today, 09:15 AM</time>
+          <i class="unread-dot"></i>
+        </article>
+        <article data-notification-item data-category="tasks">
+          <span class="notification-icon pink"><svg><use href="#icon-check"></use></svg></span>
+          <div><strong>Sophie Martin completed task "Create Wireframes"</strong></div>
+          <time>Yesterday, 02:45 PM</time>
+          <i class="unread-dot"></i>
+        </article>
+        <article data-notification-item data-category="projects">
+          <span class="notification-icon purple"><svg><use href="#icon-user"></use></svg></span>
+          <div><strong>Daniel Lee was added to project "Mobile App"</strong></div>
+          <time>Yesterday, 11:20 AM</time>
+          <i class="unread-dot"></i>
+        </article>
+        <article data-notification-item data-category="tasks">
+          <span class="notification-icon orange"><svg><use href="#icon-task"></use></svg></span>
+          <div><strong>Michael Chen updated task status to In Progress</strong></div>
+          <time>20 May 2024, 05:30 PM</time>
+          <i class="unread-dot"></i>
+        </article>
+        <article data-notification-item data-category="projects">
+          <span class="notification-icon dark"><svg><use href="#icon-folder"></use></svg></span>
+          <div><strong>Project "Brand Redesign" was completed</strong></div>
+          <time>18 May 2024, 03:10 PM</time>
+          <i class="unread-dot"></i>
+        </article>
+        <article data-notification-item data-category="mentions">
+          <span class="notification-icon teal"><svg><use href="#icon-bell"></use></svg></span>
+          <div><strong>Olivia Davis mentioned you in a comment</strong><small>@alex.thompson please review the latest changes.</small></div>
+          <time>17 May 2024, 04:25 PM</time>
+          <i class="unread-dot"></i>
+        </article>
+        <article data-notification-item data-category="system">
+          <span class="notification-icon gray"><svg><use href="#icon-shield"></use></svg></span>
+          <div><strong>Database backup completed successfully</strong></div>
+          <time>17 May 2024, 01:00 AM</time>
+          <i class="unread-dot"></i>
+        </article>
+
+        <div class="table-footer">
+          <span>Showing <span data-notification-count>8</span> of 24 notifications</span>
+          <nav class="pagination-nav" aria-label="Notification pages">
+            <a href="#" aria-label="Previous page">&lt;</a>
+            <a class="active" href="#">1</a>
+            <a href="#">2</a>
+            <a href="#">3</a>
+            <a href="#" aria-label="Next page">&gt;</a>
+          </nav>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script src="{% static 'js/core/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'js/module-pages.js' %}"></script>
+</body>
+</html>

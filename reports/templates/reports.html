@@ -1,0 +1,132 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reports - MyTeam Manager</title>
+  <link rel="icon" href="{% static 'img/favicon.png' %}">
+  <link rel="stylesheet" href="{% static 'css/material-dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'css/module-pages.css' %}">
+</head>
+<body class="module-page reports-page">
+  {% include 'includes/module_icons.html' %}
+  {% include 'includes/module_sidebar.html' with active='reports' %}
+
+  <main class="module-main">
+    {% include 'includes/module_topbar.html' with page_title='Reports' search_id='reportSearch' %}
+
+    <section class="page-heading">
+      <div>
+        <h1>Reports</h1>
+        <p>Track performance and get insights across your teams and projects.</p>
+      </div>
+      <div class="heading-actions">
+        <select aria-label="Report period">
+          <option>This Month</option>
+          <option>Last Month</option>
+          <option>This Quarter</option>
+        </select>
+        <button class="btn accent-button" type="button">
+          <svg><use href="#icon-export"></use></svg>
+          <span>Export Report</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="metric-grid report-metrics" aria-label="Report summary">
+      <article class="metric-card pink">
+        <span><svg><use href="#icon-folder"></use></svg></span>
+        <div><small>Total Projects</small><strong>18</strong><em>+12% vs last month</em></div>
+      </article>
+      <article class="metric-card purple">
+        <span><svg><use href="#icon-check"></use></svg></span>
+        <div><small>Completed Tasks</small><strong>156</strong><em>+10% vs last month</em></div>
+      </article>
+      <article class="metric-card orange">
+        <span><svg><use href="#icon-task"></use></svg></span>
+        <div><small>In Progress Tasks</small><strong>48</strong><em>+8% vs last month</em></div>
+      </article>
+      <article class="metric-card green">
+        <span><svg><use href="#icon-users"></use></svg></span>
+        <div><small>Team Members</small><strong>32</strong><em>+10% vs last month</em></div>
+      </article>
+    </section>
+
+    <section class="reports-grid">
+      <article class="panel-card status-panel">
+        <h2>Tasks by Status</h2>
+        <div class="donut-layout">
+          <div class="donut-chart report-donut" aria-label="Tasks by status chart"></div>
+          <ul class="legend-list">
+            <li><span class="green"></span>Completed <em>166 (45%)</em></li>
+            <li><span class="orange"></span>In Progress <em>48 (25%)</em></li>
+            <li><span class="gray"></span>To Do <em>72 (20%)</em></li>
+            <li><span class="purple"></span>In Review <em>24 (10%)</em></li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="panel-card trend-panel">
+        <h2>Tasks Trend</h2>
+        <div class="trend-legend">
+          <span><i class="green"></i>Completed</span>
+          <span><i class="orange"></i>In Progress</span>
+        </div>
+        <div class="line-chart" aria-label="Tasks trend chart">
+          <svg viewBox="0 0 520 220" role="img">
+            <path class="grid-line" d="M45 30H500M45 80H500M45 130H500M45 180H500"/>
+            <path class="line completed" d="M50 165 L92 132 L132 100 L174 126 L214 104 L254 84 L294 96 L334 74 L374 118 L414 104 L454 54 L494 72"/>
+            <path class="line progress" d="M50 178 L92 162 L132 132 L174 165 L214 136 L254 160 L294 132 L334 158 L374 146 L414 128 L454 100 L494 126"/>
+            <g class="axis-labels">
+              <text x="48" y="210">01 May</text>
+              <text x="220" y="210">15 May</text>
+              <text x="422" y="210">29 May</text>
+            </g>
+          </svg>
+        </div>
+      </article>
+
+      <article class="panel-card table-panel">
+        <h2>Top Performing Projects</h2>
+        <div class="table-responsive">
+          <table class="table module-table align-middle">
+            <thead>
+              <tr>
+                <th>Project</th>
+                <th>Total Tasks</th>
+                <th>Completed</th>
+                <th>In Progress</th>
+                <th>Completion Rate</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Design System</td><td>42</td><td>28</td><td>10</td><td><span class="rate-bar"><i style="width:66.7%"></i></span>66.7%</td></tr>
+              <tr><td>Mobile App</td><td>38</td><td>22</td><td>8</td><td><span class="rate-bar"><i style="width:57.9%"></i></span>57.9%</td></tr>
+              <tr><td>E-commerce Platform</td><td>36</td><td>20</td><td>9</td><td><span class="rate-bar"><i style="width:55.6%"></i></span>55.6%</td></tr>
+              <tr><td>Website Redesign</td><td>28</td><td>18</td><td>6</td><td><span class="rate-bar"><i style="width:64.3%"></i></span>64.3%</td></tr>
+              <tr><td>Analytics Dashboard</td><td>24</td><td>14</td><td>5</td><td><span class="rate-bar"><i style="width:58.3%"></i></span>58.3%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="panel-card productivity-card">
+        <h2>Team Productivity</h2>
+        <small>Average Completion Rate</small>
+        <strong>62.4%</strong>
+        <em>+11% vs last month</em>
+        <div class="mini-area" aria-label="Team productivity trend">
+          <svg viewBox="0 0 240 120">
+            <path d="M0 96 C28 70 42 92 68 62 C95 30 110 86 136 56 C162 28 178 48 204 26 C220 14 230 22 240 18 L240 120 L0 120Z"/>
+            <polyline points="0,96 34,78 68,62 102,86 136,56 170,42 204,26 240,18"/>
+          </svg>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script src="{% static 'js/core/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'js/module-pages.js' %}"></script>
+</body>
+</html>

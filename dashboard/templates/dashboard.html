@@ -1,0 +1,201 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - MyTeam Manager</title>
+  <link rel="icon" href="{% static 'img/favicon.png' %}">
+  <link rel="stylesheet" href="{% static 'css/material-dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'css/workspace.css' %}">
+</head>
+<body class="workspace-page">
+  {% include 'includes/module_icons.html' %}
+  {% include 'includes/module_sidebar.html' with active='dashboard' %}
+
+  <main class="module-main">
+    {% include 'includes/module_topbar.html' with page_title='Dashboard' search_id='dashboardSearch' search_placeholder='Search work...' %}
+
+    <section class="page-heading">
+      <div>
+        <h1>Dashboard</h1>
+        <p>Track project health, team capacity, tasks, and deadlines in one place.</p>
+      </div>
+      <div class="heading-actions">
+        <button class="work-button primary-button" type="button" data-open-modal>
+          <svg><use href="#icon-plus"></use></svg>
+          <span>New Status</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="metric-grid" aria-label="Dashboard summary">
+      <article class="metric-card">
+        <div><small>Active Projects</small><strong>24</strong></div>
+        <span class="metric-icon"><svg><use href="#icon-folder"></use></svg></span>
+        <em>18 healthy, 3 need attention</em>
+      </article>
+      <article class="metric-card">
+        <div><small>Team Members</small><strong>86</strong></div>
+        <span class="metric-icon purple"><svg><use href="#icon-users"></use></svg></span>
+        <em>12 teams across product and ops</em>
+      </article>
+      <article class="metric-card">
+        <div><small>Open Tasks</small><strong>134</strong></div>
+        <span class="metric-icon orange"><svg><use href="#icon-task"></use></svg></span>
+        <em>74 moving, 18 waiting review</em>
+      </article>
+      <article class="metric-card">
+        <div><small>Due This Week</small><strong>8</strong></div>
+        <span class="metric-icon green"><svg><use href="#icon-calendar"></use></svg></span>
+        <em>5 deadlines are on track</em>
+      </article>
+    </section>
+
+    <section class="insight-grid mt-4" aria-label="Operational insights">
+      <article class="panel">
+        <div class="section-head">
+          <div>
+            <h2>Project Health</h2>
+            <p class="panel-subtitle">Priority delivery overview</p>
+          </div>
+          <span class="badge-pill badge-pink">82%</span>
+        </div>
+        <div class="stack-list">
+          <div class="stack-item" data-open-drawer data-search-text="design system project health" data-drawer-title="Design System" data-drawer-subtitle="Project health" data-drawer-status="On track" data-drawer-owner="Sophie Martin" data-drawer-due="25 May 2024">
+            <span class="dot green"></span>
+            <div><strong>Design System</strong><small>Wireframes and component audit</small></div>
+            <span>88%</span>
+          </div>
+          <div class="stack-item" data-open-drawer data-search-text="mobile app project health" data-drawer-title="Mobile App" data-drawer-subtitle="Project health" data-drawer-status="At risk" data-drawer-owner="Michael Chen" data-drawer-due="28 May 2024">
+            <span class="dot orange"></span>
+            <div><strong>Mobile App</strong><small>Auth and profile work needs review</small></div>
+            <span>64%</span>
+          </div>
+          <div class="stack-item" data-open-drawer data-search-text="e-commerce project health" data-drawer-title="E-commerce" data-drawer-subtitle="Project health" data-drawer-status="On track" data-drawer-owner="Olivia Davis" data-drawer-due="30 May 2024">
+            <span class="dot green"></span>
+            <div><strong>E-commerce</strong><small>Payment gateway integration</small></div>
+            <span>71%</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="section-head">
+          <div>
+            <h2>Task Pipeline</h2>
+            <p class="panel-subtitle">Current work by status</p>
+          </div>
+          <a href="{% url 'tasks' %}">Open Tasks</a>
+        </div>
+        <div class="stack-list">
+          <div class="stack-item"><span class="dot"></span><div><strong>42 To Do</strong><small>Ready to start</small></div><span>31%</span></div>
+          <div class="stack-item"><span class="dot orange"></span><div><strong>56 In Progress</strong><small>Currently assigned</small></div><span>42%</span></div>
+          <div class="stack-item"><span class="dot blue"></span><div><strong>18 In Review</strong><small>Waiting for approval</small></div><span>13%</span></div>
+          <div class="stack-item"><span class="dot green"></span><div><strong>18 Completed</strong><small>Closed this week</small></div><span>14%</span></div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="section-head">
+          <div>
+            <h2>Team Workload</h2>
+            <p class="panel-subtitle">Capacity across contributors</p>
+          </div>
+          <a href="{% url 'teams' %}">View Team</a>
+        </div>
+        <div class="stack-list">
+          <div class="stack-item" data-open-drawer data-search-text="sophie martin workload" data-drawer-title="Sophie Martin" data-drawer-subtitle="Team workload" data-drawer-status="Healthy" data-drawer-owner="Design Team" data-drawer-due="76% capacity">
+            <img class="avatar" src="{% static 'img/team-2.jpg' %}" alt="Sophie Martin">
+            <div><strong>Sophie Martin</strong><small>Design System, QA review</small></div>
+            <span>76%</span>
+          </div>
+          <div class="stack-item" data-open-drawer data-search-text="michael chen workload" data-drawer-title="Michael Chen" data-drawer-subtitle="Team workload" data-drawer-status="Healthy" data-drawer-owner="Mobile Team" data-drawer-due="58% capacity">
+            <img class="avatar" src="{% static 'img/bruce-mars.jpg' %}" alt="Michael Chen">
+            <div><strong>Michael Chen</strong><small>Authentication, API checks</small></div>
+            <span>58%</span>
+          </div>
+          <div class="stack-item" data-open-drawer data-search-text="olivia davis workload" data-drawer-title="Olivia Davis" data-drawer-subtitle="Team workload" data-drawer-status="Near capacity" data-drawer-owner="Platform Team" data-drawer-due="92% capacity">
+            <img class="avatar" src="{% static 'img/ivana-square.jpg' %}" alt="Olivia Davis">
+            <div><strong>Olivia Davis</strong><small>E-commerce, integrations</small></div>
+            <span>92%</span>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="layout-grid mt-4">
+      <article class="panel">
+        <div class="section-head">
+          <div>
+            <h2>Priority Projects</h2>
+            <p class="panel-subtitle">Click a row for a quick project drawer.</p>
+          </div>
+          <a href="{% url 'projects' %}">All Projects</a>
+        </div>
+        <div class="table-responsive">
+          <table class="table data-table align-middle">
+            <thead>
+              <tr><th>Project</th><th>Owner</th><th>Status</th><th>Progress</th><th>Due</th></tr>
+            </thead>
+            <tbody>
+              <tr data-open-drawer data-search-text="design system sophie martin" data-drawer-title="Design System" data-drawer-subtitle="Priority project" data-drawer-status="On track" data-drawer-owner="Sophie Martin" data-drawer-due="25 May 2024">
+                <td><div class="title-cell"><span class="summary-icon"><svg><use href="#icon-folder"></use></svg></span><div><strong>Design System</strong><small>UI foundations</small></div></div></td>
+                <td>Sophie Martin</td>
+                <td><span class="status-pill status-done">On Track</span></td>
+                <td><div class="progress-track"><span style="width: 88%;"></span></div></td>
+                <td>25 May 2024</td>
+              </tr>
+              <tr data-open-drawer data-search-text="mobile app michael chen" data-drawer-title="Mobile App" data-drawer-subtitle="Priority project" data-drawer-status="At risk" data-drawer-owner="Michael Chen" data-drawer-due="28 May 2024">
+                <td><div class="title-cell"><span class="summary-icon orange"><svg><use href="#icon-task"></use></svg></span><div><strong>Mobile App</strong><small>Auth release</small></div></div></td>
+                <td>Michael Chen</td>
+                <td><span class="status-pill status-progress">At Risk</span></td>
+                <td><div class="progress-track"><span style="width: 64%;"></span></div></td>
+                <td>28 May 2024</td>
+              </tr>
+              <tr data-open-drawer data-search-text="analytics dashboard james carter" data-drawer-title="Analytics Dashboard" data-drawer-subtitle="Priority project" data-drawer-status="In review" data-drawer-owner="James Carter" data-drawer-due="05 Jun 2024">
+                <td><div class="title-cell"><span class="summary-icon blue"><svg><use href="#icon-report"></use></svg></span><div><strong>Analytics Dashboard</strong><small>Reporting workflow</small></div></div></td>
+                <td>James Carter</td>
+                <td><span class="status-pill status-review">In Review</span></td>
+                <td><div class="progress-track"><span style="width: 72%;"></span></div></td>
+                <td>05 Jun 2024</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <aside class="side-panel">
+        <div class="section-head">
+          <div>
+            <h2>Today</h2>
+            <p class="panel-subtitle">Deadlines and activity</p>
+          </div>
+        </div>
+        <div class="stack-list">
+          <div class="deadline-item" data-open-drawer data-drawer-title="Product Demo" data-drawer-subtitle="Calendar event" data-drawer-status="Scheduled" data-drawer-owner="Product Team" data-drawer-due="11:00 AM">
+            <span class="dot"></span>
+            <div><strong>Product Demo</strong><small>11:00 AM with leadership</small></div>
+            <span>High</span>
+          </div>
+          <div class="deadline-item" data-open-drawer data-drawer-title="API Integration" data-drawer-subtitle="Task deadline" data-drawer-status="To Do" data-drawer-owner="Olivia Davis" data-drawer-due="30 May 2024">
+            <span class="dot orange"></span>
+            <div><strong>API Integration</strong><small>E-commerce project</small></div>
+            <span>Medium</span>
+          </div>
+          <div class="activity-item">
+            <span class="dot green"></span>
+            <div><strong>Sophie completed wireframes</strong><small>Design System updated</small></div>
+          </div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  {% include 'includes/workspace_drawer.html' %}
+  {% include 'includes/workspace_modal.html' with modal_title='New Status Request' name_placeholder='Request title' owner_placeholder='Project or owner' notes_placeholder='What update do you need?' modal_action='Create Request' %}
+
+  <script src="{% static 'js/core/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'js/workspace.js' %}"></script>
+</body>
+</html>

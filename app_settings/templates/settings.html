@@ -1,0 +1,139 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings - MyTeam Manager</title>
+  <link rel="icon" href="{% static 'img/favicon.png' %}">
+  <link rel="stylesheet" href="{% static 'css/material-dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'css/module-pages.css' %}">
+</head>
+<body class="module-page settings-page">
+  {% include 'includes/module_icons.html' %}
+  {% include 'includes/module_sidebar.html' with active='settings' %}
+
+  <main class="module-main">
+    {% include 'includes/module_topbar.html' with page_title='Settings' search_id='settingsSearch' %}
+
+    <section class="page-heading">
+      <div>
+        <h1>Settings</h1>
+        <p>Manage your account and application preferences.</p>
+      </div>
+    </section>
+
+    <section class="settings-layout">
+      <nav class="settings-menu" aria-label="Settings sections">
+        <button class="active" type="button" data-settings-tab="general"><svg><use href="#icon-settings"></use></svg>General</button>
+        <button type="button" data-settings-tab="profile"><svg><use href="#icon-user"></use></svg>Profile</button>
+        <button type="button" data-settings-tab="team"><svg><use href="#icon-users"></use></svg>Team Management</button>
+        <button type="button" data-settings-tab="roles"><svg><use href="#icon-shield"></use></svg>Roles &amp; Permissions</button>
+        <button type="button" data-settings-tab="notifications"><svg><use href="#icon-bell"></use></svg>Notifications</button>
+        <button type="button" data-settings-tab="security"><svg><use href="#icon-shield"></use></svg>Security</button>
+        <button type="button" data-settings-tab="integrations"><svg><use href="#icon-folder"></use></svg>Integrations</button>
+        <button type="button" data-settings-tab="billing"><svg><use href="#icon-task"></use></svg>Billing</button>
+        <button type="button" data-settings-tab="appearance"><svg><use href="#icon-report"></use></svg>Appearance</button>
+      </nav>
+
+      <form class="settings-panel" data-settings-panel="general">
+        <h2>General Settings</h2>
+
+        <label>
+          <span>Company Name</span>
+          <input type="text" value="TechNova Solutions">
+        </label>
+        <label>
+          <span>Company Email</span>
+          <input type="email" value="contact@technova.com">
+        </label>
+        <label>
+          <span>Phone Number</span>
+          <input type="tel" value="+1 (555) 123-4567">
+        </label>
+        <label>
+          <span>Company Website</span>
+          <input type="url" value="www.technova.com">
+        </label>
+
+        <div class="settings-grid">
+          <label>
+            <span>Timezone</span>
+            <select>
+              <option>(GMT+05:30) Asia/Kolkata</option>
+              <option>(GMT+00:00) London</option>
+              <option>(GMT-05:00) New York</option>
+            </select>
+          </label>
+          <label>
+            <span>Date Format</span>
+            <select>
+              <option>DD MMM YYYY</option>
+              <option>MM/DD/YYYY</option>
+              <option>YYYY-MM-DD</option>
+            </select>
+          </label>
+          <label>
+            <span>Language</span>
+            <select>
+              <option>English</option>
+              <option>Hindi</option>
+              <option>Spanish</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="logo-row">
+          <span class="logo-tile">T</span>
+          <div>
+            <strong>technova-logo.png</strong>
+            <small>PNG - 200 x 200px</small>
+          </div>
+          <button class="btn btn-outline-primary" type="button">Change</button>
+          <button class="btn ghost-button" type="button">Remove</button>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn accent-button" type="button">Save Changes</button>
+        </div>
+      </form>
+
+      <section class="settings-panel is-hidden" data-settings-panel="profile">
+        <h2>Profile</h2>
+        <p class="muted-copy">Personal profile fields, avatar details, and contact preferences can live here.</p>
+      </section>
+      <section class="settings-panel is-hidden" data-settings-panel="team">
+        <h2>Team Management</h2>
+        <p class="muted-copy">Invite controls, approval rules, and workspace membership settings can live here.</p>
+      </section>
+      <section class="settings-panel is-hidden" data-settings-panel="roles">
+        <h2>Roles &amp; Permissions</h2>
+        <p class="muted-copy">Role templates and access permissions can live here.</p>
+      </section>
+      <section class="settings-panel is-hidden" data-settings-panel="notifications">
+        <h2>Notifications</h2>
+        <p class="muted-copy">Email, push, and in-app notification preferences can live here.</p>
+      </section>
+      <section class="settings-panel is-hidden" data-settings-panel="security">
+        <h2>Security</h2>
+        <p class="muted-copy">Password, two-factor authentication, and session controls can live here.</p>
+      </section>
+      <section class="settings-panel is-hidden" data-settings-panel="integrations">
+        <h2>Integrations</h2>
+        <p class="muted-copy">Connected apps, API keys, and webhooks can live here.</p>
+      </section>
+      <section class="settings-panel is-hidden" data-settings-panel="billing">
+        <h2>Billing</h2>
+        <p class="muted-copy">Plan details, invoices, and payment methods can live here.</p>
+      </section>
+      <section class="settings-panel is-hidden" data-settings-panel="appearance">
+        <h2>Appearance</h2>
+        <p class="muted-copy">Theme, density, and display preferences can live here.</p>
+      </section>
+    </section>
+  </main>
+
+  <script src="{% static 'js/core/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'js/module-pages.js' %}"></script>
+</body>
+</html>

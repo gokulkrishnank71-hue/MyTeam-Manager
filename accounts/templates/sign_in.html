@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In - MyTeam Manager</title>
+  <link rel="icon" href="{% static 'img/favicon.png' %}">
+  <link rel="stylesheet" href="{% static 'css/material-dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'css/account-pages.css' %}">
+</head>
+<body class="auth-page sign-in-page">
+  <header class="auth-nav">
+    <a class="auth-brand" href="{% url 'dashboard' %}">MyTeam Manager</a>
+    <nav aria-label="Account pages">
+      <a href="{% url 'dashboard' %}">Dashboard</a>
+      <a href="{% url 'profile' %}">Profile</a>
+      <a href="{% url 'sign_up' %}">Sign Up</a>
+      <a href="{% url 'sign_in' %}">Sign In</a>
+    </nav>
+    <div class="auth-actions">
+      <button class="auth-outline" type="button">Online Builder</button>
+      <a class="auth-dark" href="{% url 'dashboard' %}">Open App</a>
+    </div>
+  </header>
+
+  <main class="auth-center">
+    <form class="auth-card sign-in-card" method="get">
+      <div class="auth-card-title">
+        <h1>Sign in</h1>
+      </div>
+      <div class="auth-card-body">
+        <input type="email" name="email" placeholder="Email" aria-label="Email">
+        <input type="password" name="password" placeholder="Password" aria-label="Password">
+        <label class="auth-toggle">
+          <input type="checkbox">
+          <span></span>
+          Remember me
+        </label>
+        <button type="submit">Sign in</button>
+        <p>Do not have an account? <a href="{% url 'sign_up' %}">Sign up</a></p>
+      </div>
+    </form>
+  </main>
+
+  <footer class="auth-footer">
+    <span>&copy; 2026, made with care for better teamwork.</span>
+    <nav aria-label="Footer">
+      <a href="#">MyTeam Manager</a>
+      <a href="#">About Us</a>
+      <a href="#">Blog</a>
+      <a href="#">License</a>
+    </nav>
+  </footer>
+</body>
+</html>

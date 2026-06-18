@@ -1,0 +1,17 @@
+<header class="module-topbar">
+  <div class="breadcrumb-wrap">
+    <span>Pages</span>
+    <span>/</span>
+    <strong>{{ page_title }}</strong>
+  </div>
+
+  <div class="topbar-actions">
+    <label class="search-box" for="{{ search_id|default:'moduleSearch' }}">
+      <svg><use href="#icon-search"></use></svg>
+      <input id="{{ search_id|default:'moduleSearch' }}" type="search" placeholder="{{ search_placeholder|default:'Search...' }}" autocomplete="off" data-search-input>
+    </label>
+    <a class="icon-button" href="{% url 'settings' %}" aria-label="Settings"><svg><use href="#icon-settings"></use></svg></a>
+    <a class="icon-button" href="{% url 'notifications' %}" aria-label="Notifications"><svg><use href="#icon-bell"></use></svg></a>
+    <a class="icon-button" href="{% url 'profile' %}" aria-label="Profile"><svg><use href="#icon-user"></use></svg></a>
+  </div>
+</header>

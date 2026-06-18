@@ -1,0 +1,57 @@
+<aside class="module-sidebar">
+  <a class="brand" href="{% url 'dashboard' %}">
+    <span class="brand-icon"><svg><use href="#icon-logo"></use></svg></span>
+    <span>MyTeam Manager</span>
+  </a>
+
+  <nav class="sidebar-nav" aria-label="Main navigation">
+    <a class="nav-link{% if active == 'dashboard' %} active{% endif %}" href="{% url 'dashboard' %}">
+      <svg><use href="#icon-dashboard"></use></svg>
+      <span>Dashboard</span>
+    </a>
+    <a class="nav-link{% if active == 'teams' %} active{% endif %}" href="{% url 'teams' %}">
+      <svg><use href="#icon-users"></use></svg>
+      <span>Teams</span>
+    </a>
+    <a class="nav-link{% if active == 'projects' %} active{% endif %}" href="{% url 'projects' %}">
+      <svg><use href="#icon-folder"></use></svg>
+      <span>Projects</span>
+    </a>
+    <a class="nav-link{% if active == 'tasks' %} active{% endif %}" href="{% url 'tasks' %}">
+      <svg><use href="#icon-task"></use></svg>
+      <span>Tasks</span>
+    </a>
+    <a class="nav-link{% if active == 'calendar' %} active{% endif %}" href="{% url 'calendar' %}">
+      <svg><use href="#icon-calendar"></use></svg>
+      <span>Calendar</span>
+    </a>
+    <a class="nav-link{% if active == 'reports' %} active{% endif %}" href="{% url 'reports' %}">
+      <svg><use href="#icon-report"></use></svg>
+      <span>Reports</span>
+    </a>
+    <a class="nav-link{% if active == 'settings' %} active{% endif %}" href="{% url 'settings' %}">
+      <svg><use href="#icon-settings"></use></svg>
+      <span>Settings</span>
+    </a>
+    <a class="nav-link{% if active == 'notifications' %} active{% endif %}" href="{% url 'notifications' %}">
+      <svg><use href="#icon-bell"></use></svg>
+      <span>Notifications</span>
+    </a>
+  </nav>
+
+  <nav class="sidebar-account" aria-label="Account navigation">
+    <p class="nav-section">Account Pages</p>
+    <a class="nav-link{% if active == 'profile' %} active{% endif %}" href="{% url 'profile' %}">
+      <svg><use href="#icon-user"></use></svg>
+      <span>Profile</span>
+    </a>
+    <a class="nav-link{% if active == 'sign_in' %} active{% endif %}" href="{% url 'sign_in' %}">
+      <svg><use href="#icon-login"></use></svg>
+      <span>Sign In</span>
+    </a>
+    <a class="nav-link{% if active == 'sign_up' %} active{% endif %}" href="{% url 'sign_up' %}">
+      <svg><use href="#icon-task"></use></svg>
+      <span>Sign Up</span>
+    </a>
+  </nav>
+</aside>

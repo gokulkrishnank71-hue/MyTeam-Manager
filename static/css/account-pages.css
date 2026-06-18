@@ -1,0 +1,691 @@
+:root {
+  --account-text: #202126;
+  --account-muted: #787d87;
+  --account-border: #dfe3ea;
+  --account-pink: #df2f73;
+  --account-dark: #1f2025;
+  --account-shadow: 0 16px 40px rgba(24, 26, 33, 0.14);
+}
+
+.profile-cover {
+  min-height: 330px;
+  margin: 0.35rem 0 0;
+  background:
+    linear-gradient(rgba(20, 22, 28, 0.3), rgba(20, 22, 28, 0.34)),
+    url("../img/ivancik.jpg") center / cover;
+  border-radius: 8px;
+  box-shadow: var(--account-shadow);
+}
+
+.profile-shell {
+  position: relative;
+  margin: -74px 1rem 2rem;
+  padding: 1.45rem;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid var(--account-border);
+  border-radius: 8px;
+  box-shadow: var(--account-shadow);
+  backdrop-filter: blur(14px);
+}
+
+.profile-intro {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1.4rem;
+}
+
+.profile-intro > img {
+  width: 112px;
+  height: 112px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 12px 24px rgba(20, 22, 28, 0.18);
+}
+
+.profile-intro h1 {
+  margin: 0;
+  color: var(--account-text);
+  font-size: 1.75rem;
+  font-weight: 900;
+  line-height: 1.05;
+}
+
+.profile-intro p {
+  margin: 0.35rem 0 0;
+  color: var(--account-muted);
+  font-size: 1.1rem;
+  font-weight: 650;
+}
+
+.profile-tabs {
+  display: flex;
+  gap: 0.35rem;
+  padding: 0.35rem;
+  background: #f1f2f4;
+  border-radius: 8px;
+}
+
+.profile-tabs a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  min-width: 138px;
+  min-height: 50px;
+  padding: 0 1rem;
+  color: #30343b;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.profile-tabs a.active {
+  background: #fff;
+  box-shadow: 0 8px 18px rgba(25, 27, 34, 0.1);
+}
+
+.profile-columns {
+  display: grid;
+  grid-template-columns: 1.1fr 1.15fr 1.05fr;
+  gap: 2rem;
+  padding: 2.3rem 0 1.5rem;
+}
+
+.profile-section {
+  min-width: 0;
+}
+
+.profile-section h2,
+.profile-projects h2 {
+  margin: 0 0 1.3rem;
+  color: var(--account-text);
+  font-size: 1.28rem;
+  font-weight: 900;
+}
+
+.profile-section h3 {
+  margin: 1.45rem 0 0.8rem;
+  color: #858a94;
+  font-size: 0.85rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.toggle-row,
+.auth-toggle,
+.terms-row {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  color: #747985;
+  font-weight: 650;
+}
+
+.toggle-row {
+  min-height: 44px;
+  margin-bottom: 0.85rem;
+}
+
+.toggle-row input,
+.auth-toggle input,
+.terms-row input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.toggle-row span,
+.auth-toggle span {
+  position: relative;
+  width: 44px;
+  height: 22px;
+  flex: 0 0 auto;
+  background: #c7cbd2;
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+}
+
+.toggle-row span::after,
+.auth-toggle span::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 2px;
+  width: 24px;
+  height: 24px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(20, 22, 28, 0.2);
+  transform: translateY(-50%);
+  transition: left 160ms ease;
+}
+
+.toggle-row input:checked + span,
+.auth-toggle input:checked + span {
+  background: #3b3d46;
+}
+
+.toggle-row input:checked + span::after,
+.auth-toggle input:checked + span::after {
+  left: 18px;
+}
+
+.toggle-row strong {
+  color: #737884;
+  font-weight: 650;
+}
+
+.profile-info p {
+  max-width: 48ch;
+  margin: 0;
+  color: #747985;
+  font-size: 1.02rem;
+  font-weight: 650;
+  line-height: 1.6;
+}
+
+.profile-info dl {
+  display: grid;
+  gap: 1rem;
+  margin: 2rem 0 0;
+}
+
+.profile-info dl div {
+  display: grid;
+  grid-template-columns: 104px minmax(0, 1fr);
+  gap: 0.7rem;
+}
+
+.profile-info dt {
+  color: var(--account-text);
+  font-weight: 900;
+}
+
+.profile-info dd {
+  margin: 0;
+  color: #737884;
+  font-weight: 700;
+}
+
+.conversations {
+  display: grid;
+  align-content: start;
+}
+
+.conversations article {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.9rem;
+  min-height: 74px;
+}
+
+.conversations img {
+  width: 52px;
+  height: 52px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.conversations strong,
+.conversations small {
+  display: block;
+}
+
+.conversations strong {
+  color: var(--account-text);
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.conversations small {
+  overflow: hidden;
+  max-width: 230px;
+  color: #777c86;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.conversations a,
+.auth-card-body a,
+.auth-switch a {
+  color: var(--account-pink);
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.profile-projects {
+  border-top: 1px solid #edf0f3;
+  padding-top: 1.6rem;
+}
+
+.profile-project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.profile-project-grid article {
+  padding: 1.1rem;
+  border: 1px solid var(--account-border);
+  border-radius: 8px;
+}
+
+.project-chip {
+  display: inline-flex;
+  margin-bottom: 0.85rem;
+  padding: 0.35rem 0.62rem;
+  border-radius: 7px;
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.project-chip.pink {
+  color: var(--account-pink);
+  background: #ffe5ef;
+}
+
+.project-chip.blue {
+  color: #2b7fd1;
+  background: #e8f2ff;
+}
+
+.project-chip.green {
+  color: #31823c;
+  background: #e4f4e6;
+}
+
+.profile-project-grid strong,
+.profile-project-grid p {
+  display: block;
+}
+
+.profile-project-grid strong {
+  color: var(--account-text);
+  font-size: 1.02rem;
+  font-weight: 900;
+}
+
+.profile-project-grid p {
+  min-height: 48px;
+  margin: 0.55rem 0 1rem;
+  color: #777c86;
+  font-size: 0.92rem;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
+.profile-project-grid article > div {
+  height: 7px;
+  background: #edf0f3;
+  border-radius: 999px;
+}
+
+.profile-project-grid article > div span {
+  display: block;
+  height: 100%;
+  background: #4cae57;
+  border-radius: inherit;
+}
+
+.auth-page {
+  min-height: 100vh;
+  color: var(--account-text);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  letter-spacing: 0;
+}
+
+.sign-in-page {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background:
+    linear-gradient(rgba(12, 14, 20, 0.3), rgba(12, 14, 20, 0.5)),
+    url("../img/bg-pricing.jpg") center / cover fixed;
+}
+
+.auth-nav {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1.5rem;
+  width: min(1720px, calc(100% - 3rem));
+  min-height: 78px;
+  margin: 1.45rem auto 0;
+  padding: 0 1.45rem;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(223, 227, 234, 0.9);
+  border-radius: 8px;
+  box-shadow: var(--account-shadow);
+  backdrop-filter: blur(14px);
+}
+
+.auth-brand {
+  color: var(--account-text);
+  font-size: 1.25rem;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.auth-nav nav {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.auth-nav nav a {
+  color: #333842;
+  font-size: 1rem;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.auth-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.auth-outline,
+.auth-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 1.3rem;
+  border-radius: 8px;
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.auth-outline {
+  color: var(--account-pink);
+  background: #fff;
+  border: 1.5px solid var(--account-pink);
+}
+
+.auth-dark,
+.auth-card-body button,
+.signup-form button {
+  color: #fff;
+  background: linear-gradient(180deg, #33343b, #18191d);
+  border: 0;
+  box-shadow: 0 10px 22px rgba(24, 25, 29, 0.24);
+}
+
+.auth-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1.5rem 2rem;
+}
+
+.auth-card {
+  width: min(560px, 100%);
+  background: #fff;
+  border: 1px solid rgba(223, 227, 234, 0.95);
+  border-radius: 8px;
+  box-shadow: var(--account-shadow);
+}
+
+.sign-in-card {
+  margin-top: 2rem;
+}
+
+.auth-card-title {
+  min-height: 158px;
+  margin: -2rem 1.35rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: linear-gradient(180deg, #35363c, #191a1e);
+  border-radius: 8px;
+  box-shadow: 0 16px 28px rgba(24, 25, 29, 0.28);
+}
+
+.auth-card-title h1,
+.signup-form h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.auth-card-body {
+  display: grid;
+  gap: 1.25rem;
+  padding: 2.65rem 1.35rem 2.35rem;
+}
+
+.auth-card-body input,
+.signup-form input {
+  width: 100%;
+  height: 58px;
+  padding: 0 1.05rem;
+  color: #424853;
+  background: #fff;
+  border: 1px solid #d8dde5;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: 0;
+}
+
+.auth-card-body input:focus,
+.signup-form input:focus {
+  border-color: var(--account-pink);
+  box-shadow: 0 0 0 3px rgba(223, 47, 115, 0.12);
+}
+
+.auth-card-body button,
+.signup-form button {
+  min-height: 54px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 850;
+}
+
+.auth-toggle {
+  min-height: 32px;
+}
+
+.auth-card-body p,
+.auth-switch {
+  margin: 1rem 0 0;
+  color: #747985;
+  font-size: 1rem;
+  font-weight: 650;
+  text-align: center;
+}
+
+.auth-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.6rem 6vw 2rem;
+  color: #fff;
+  font-weight: 650;
+}
+
+.auth-footer nav {
+  display: flex;
+  gap: 2rem;
+}
+
+.auth-footer a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.sign-up-page {
+  background: #fff;
+}
+
+.sign-up-layout {
+  display: grid;
+  grid-template-columns: minmax(360px, 1.08fr) minmax(360px, 1fr);
+  min-height: calc(100vh - 110px);
+  gap: clamp(2rem, 5vw, 5rem);
+  padding: 1.6rem clamp(1.5rem, 4vw, 3rem) 2rem;
+}
+
+.signup-art {
+  min-height: 720px;
+  background: url("../img/illustrations/illustration-signup.jpg") center / cover;
+  border-radius: 8px;
+  box-shadow: var(--account-shadow);
+}
+
+.signup-form-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.signup-form {
+  width: min(520px, 100%);
+}
+
+.signup-form p {
+  margin: 1rem 0 2.2rem;
+  color: #777c86;
+  font-size: 1.2rem;
+  font-weight: 650;
+}
+
+.signup-form input {
+  margin-bottom: 1.25rem;
+}
+
+.terms-row {
+  margin: 0.25rem 0 2rem;
+}
+
+.terms-row span {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 auto;
+  background: var(--account-pink);
+  border-radius: 6px;
+}
+
+.terms-row span::after {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border: 2px solid #fff;
+  border-radius: 3px;
+}
+
+.auth-switch {
+  margin-top: 1.35rem;
+}
+
+@media (max-width: 1280px) {
+  .profile-intro,
+  .profile-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-tabs {
+    justify-self: start;
+  }
+
+  .profile-project-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-nav {
+    grid-template-columns: 1fr;
+    padding-block: 1rem;
+  }
+
+  .auth-nav nav,
+  .auth-actions {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .sign-up-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .signup-art {
+    min-height: 420px;
+  }
+}
+
+@media (max-width: 760px) {
+  .profile-cover {
+    min-height: 240px;
+    margin-inline: 0;
+  }
+
+  .profile-shell {
+    margin: -48px 0 1.5rem;
+    padding: 1rem;
+  }
+
+  .profile-intro > img {
+    width: 86px;
+    height: 86px;
+  }
+
+  .profile-tabs,
+  .profile-tabs a,
+  .auth-outline,
+  .auth-dark {
+    width: 100%;
+  }
+
+  .profile-tabs {
+    display: grid;
+  }
+
+  .conversations article,
+  .profile-info dl div {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-nav {
+    width: calc(100% - 1.5rem);
+    margin-top: 0.75rem;
+  }
+
+  .auth-nav nav,
+  .auth-actions,
+  .auth-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .auth-footer {
+    padding-inline: 1.25rem;
+  }
+
+  .auth-footer nav {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .auth-card-title {
+    min-height: 128px;
+  }
+
+  .sign-up-layout {
+    padding-inline: 1rem;
+  }
+
+  .signup-art {
+    min-height: 300px;
+  }
+}

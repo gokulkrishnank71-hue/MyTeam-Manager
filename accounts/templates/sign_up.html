@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - MyTeam Manager</title>
+  <link rel="icon" href="{% static 'img/favicon.png' %}">
+  <link rel="stylesheet" href="{% static 'css/material-dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'css/account-pages.css' %}">
+</head>
+<body class="auth-page sign-up-page">
+  <header class="auth-nav">
+    <a class="auth-brand" href="{% url 'dashboard' %}">MyTeam Manager</a>
+    <nav aria-label="Account pages">
+      <a href="{% url 'dashboard' %}">Dashboard</a>
+      <a href="{% url 'profile' %}">Profile</a>
+      <a href="{% url 'sign_up' %}">Sign Up</a>
+      <a href="{% url 'sign_in' %}">Sign In</a>
+    </nav>
+    <div class="auth-actions">
+      <button class="auth-outline" type="button">Online Builder</button>
+      <a class="auth-dark" href="{% url 'dashboard' %}">Open App</a>
+    </div>
+  </header>
+
+  <main class="sign-up-layout">
+    <section class="signup-art" aria-label="Sign up illustration"></section>
+    <section class="signup-form-wrap">
+      <form class="signup-form" method="get">
+        <h1>Sign Up</h1>
+        <p>Enter your email and password to register</p>
+        <input type="text" name="name" placeholder="Name" aria-label="Name">
+        <input type="email" name="email" placeholder="Email" aria-label="Email">
+        <input type="password" name="password" placeholder="Password" aria-label="Password">
+        <label class="terms-row">
+          <input type="checkbox">
+          <span></span>
+          I agree the <strong>Terms and Conditions</strong>
+        </label>
+        <button type="submit">Sign Up</button>
+        <p class="auth-switch">Already have an account? <a href="{% url 'sign_in' %}">Sign in</a></p>
+      </form>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<aside class="workspace-modal" data-modal aria-hidden="true">
+  <button class="modal-backdrop-lite" type="button" data-close-modal aria-label="Close modal"></button>
+  <section class="modal-panel" aria-label="{{ modal_title|default:'Create item' }}">
+    <header class="modal-head">
+      <h2>{{ modal_title|default:'Create item' }}</h2>
+      <button class="plain-icon" type="button" data-close-modal aria-label="Close modal">&times;</button>
+    </header>
+    <div class="modal-body">
+      <form class="form-grid">
+        <label>
+          Name
+          <input class="field" type="text" placeholder="{{ name_placeholder|default:'Enter name' }}">
+        </label>
+        <label>
+          Owner
+          <input class="field" type="text" placeholder="{{ owner_placeholder|default:'Assign owner' }}">
+        </label>
+        <label>
+          Notes
+          <textarea class="field" placeholder="{{ notes_placeholder|default:'Add useful context' }}"></textarea>
+        </label>
+        <div class="modal-actions">
+          <button class="work-button ghost-button" type="button" data-close-modal>Cancel</button>
+          <button class="work-button primary-button" type="button" data-close-modal>{{ modal_action|default:'Create' }}</button>
+        </div>
+      </form>
+    </div>
+  </section>
+</aside>

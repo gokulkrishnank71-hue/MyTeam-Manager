@@ -1,0 +1,145 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile - MyTeam Manager</title>
+  <link rel="icon" href="{% static 'img/favicon.png' %}">
+  <link rel="stylesheet" href="{% static 'css/material-dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'css/module-pages.css' %}">
+  <link rel="stylesheet" href="{% static 'css/account-pages.css' %}">
+</head>
+<body class="module-page profile-page">
+  {% include 'includes/module_icons.html' %}
+  {% include 'includes/module_sidebar.html' with active='profile' %}
+
+  <main class="module-main">
+    {% include 'includes/module_topbar.html' with page_title='Profile' search_id='profileSearch' %}
+
+    <section class="profile-cover" aria-label="Profile cover"></section>
+
+    <section class="profile-shell">
+      <header class="profile-intro">
+        <img src="{% static 'img/kal-visuals-square.jpg' %}" alt="Richard Davis">
+        <div>
+          <h1>Richard Davis</h1>
+          <p>CEO / Co-Founder</p>
+        </div>
+        <nav class="profile-tabs" aria-label="Profile sections">
+          <a class="active" href="#"><svg><use href="#icon-dashboard"></use></svg>App</a>
+          <a href="#"><svg><use href="#icon-bell"></use></svg>Messages</a>
+          <a href="{% url 'settings' %}"><svg><use href="#icon-settings"></use></svg>Settings</a>
+        </nav>
+      </header>
+
+      <div class="profile-columns">
+        <section class="profile-section settings-summary">
+          <h2>Platform Settings</h2>
+          <h3>Account</h3>
+          <label class="toggle-row">
+            <input type="checkbox" checked>
+            <span></span>
+            <strong>Email me when someone follows me</strong>
+          </label>
+          <label class="toggle-row">
+            <input type="checkbox">
+            <span></span>
+            <strong>Email me when someone answers on a project</strong>
+          </label>
+          <label class="toggle-row">
+            <input type="checkbox" checked>
+            <span></span>
+            <strong>Email me when someone mentions me</strong>
+          </label>
+
+          <h3>Application</h3>
+          <label class="toggle-row">
+            <input type="checkbox">
+            <span></span>
+            <strong>New launches and projects</strong>
+          </label>
+          <label class="toggle-row">
+            <input type="checkbox" checked>
+            <span></span>
+            <strong>Monthly product updates</strong>
+          </label>
+          <label class="toggle-row">
+            <input type="checkbox">
+            <span></span>
+            <strong>Subscribe to newsletter</strong>
+          </label>
+        </section>
+
+        <section class="profile-section profile-info">
+          <h2>Profile Information</h2>
+          <p>Hi, I am Alec Thompson. Decisions: if you cannot decide, the answer is no. If two equally difficult paths appear, choose the one that keeps your team moving with clarity and care.</p>
+          <dl>
+            <div><dt>Full Name:</dt><dd>Alec M. Thompson</dd></div>
+            <div><dt>Mobile:</dt><dd>(44) 123 1234 123</dd></div>
+            <div><dt>Email:</dt><dd>alecthompson@mail.com</dd></div>
+            <div><dt>Location:</dt><dd>USA</dd></div>
+            <div><dt>Social:</dt><dd>@alec.team</dd></div>
+          </dl>
+        </section>
+
+        <section class="profile-section conversations">
+          <h2>Conversations</h2>
+          <article>
+            <img src="{% static 'img/bruce-mars.jpg' %}" alt="Sophie B.">
+            <div><strong>Sophie B.</strong><small>Hi! I need more information.</small></div>
+            <a href="#">Reply</a>
+          </article>
+          <article>
+            <img src="{% static 'img/team-4.jpg' %}" alt="Anne Marie">
+            <div><strong>Anne Marie</strong><small>Awesome work, can you review it?</small></div>
+            <a href="#">Reply</a>
+          </article>
+          <article>
+            <img src="{% static 'img/team-3.jpg' %}" alt="Ivanna">
+            <div><strong>Ivanna</strong><small>About files I can share today.</small></div>
+            <a href="#">Reply</a>
+          </article>
+          <article>
+            <img src="{% static 'img/team-2.jpg' %}" alt="Peterson">
+            <div><strong>Peterson</strong><small>Have a great afternoon.</small></div>
+            <a href="#">Reply</a>
+          </article>
+          <article>
+            <img src="{% static 'img/marie.jpg' %}" alt="Nick Daniel">
+            <div><strong>Nick Daniel</strong><small>Hi! I need more information.</small></div>
+            <a href="#">Reply</a>
+          </article>
+        </section>
+      </div>
+
+      <section class="profile-projects" aria-labelledby="profileProjectsTitle">
+        <h2 id="profileProjectsTitle">Projects</h2>
+        <div class="profile-project-grid">
+          <article>
+            <span class="project-chip pink">Design</span>
+            <strong>Design System</strong>
+            <p>Wireframes, product surfaces, and shared UI tokens.</p>
+            <div><span style="width: 72%;"></span></div>
+          </article>
+          <article>
+            <span class="project-chip blue">Mobile</span>
+            <strong>Mobile App</strong>
+            <p>Authentication, profile screens, and app release tasks.</p>
+            <div><span style="width: 58%;"></span></div>
+          </article>
+          <article>
+            <span class="project-chip green">Commerce</span>
+            <strong>E-commerce</strong>
+            <p>Checkout integrations and customer notification flows.</p>
+            <div><span style="width: 64%;"></span></div>
+          </article>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script src="{% static 'js/core/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'js/module-pages.js' %}"></script>
+</body>
+</html>
