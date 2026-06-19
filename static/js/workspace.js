@@ -1,6 +1,14 @@
 document.addEventListener('DOMContentLoaded', function () {
   const drawer = document.querySelector('[data-drawer]');
-  const modal = document.querySelector('[data-modal]');
+  const modals = Array.from(document.querySelectorAll('[data-modal]'));
+
+  function findModal(name) {
+    if (!name) {
+      return modals[0];
+    }
+
+    return document.querySelector('[data-modal-name="' + name + '"]');
+  }
 
   function closeDrawer() {
     if (drawer) {
@@ -9,9 +17,9 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function closeModal() {
-    if (modal) {
+    modals.forEach(function (modal) {
       modal.classList.remove('is-open');
-    }
+    });
   }
 
   document.querySelectorAll('[data-open-drawer]').forEach(function (item) {
@@ -47,13 +55,29 @@ document.addEventListener('DOMContentLoaded', function () {
     button.addEventListener('click', closeDrawer);
   });
 
-  document.querySelectorAll('[data-open-modal]').forEach(function (button) {
-    button.addEventListener('click', function () {
+  document.querySelectorAll('[data-open-modal]').forEach(function (item) {
+    item.addEventListener('click', function (event) {
+      const interactive = event.target.closest('a, button, input, select, textarea, label');
+
+      if (interactive && interactive !== item) {
+        return;
+      }
+
+      const modal = findModal(item.dataset.openModal);
+
       if (!modal) {
         return;
       }
 
+      closeModal();
       modal.classList.add('is-open');
+    });
+
+    item.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        item.click();
+      }
     });
   });
 

@@ -49,6 +49,205 @@
   border-color: #ffd2c2;
 }
 
+.table-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.task-cell-copy {
+  min-width: 180px;
+}
+
+.task-inline-actions {
+  margin-top: 0.55rem;
+}
+
+.compact-button {
+  min-height: 34px;
+  padding: 0.45rem 0.65rem;
+  font-size: 0.78rem;
+}
+
+.danger-button {
+  color: #fff;
+  background: #b42318;
+  border-color: #b42318;
+}
+
+.danger-button:hover {
+  color: #fff;
+  background: #911b12;
+  border-color: #911b12;
+}
+
+.modal-warning {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.9rem;
+  color: #8a2f1f;
+  background: #fff1ec;
+  border: 1px solid #ffd2c2;
+  border-radius: 8px;
+}
+
+.modal-warning strong,
+.modal-warning span {
+  display: block;
+}
+
+.task-board-card {
+  padding: 0;
+  overflow: hidden;
+  border-color: #d8dee8;
+  box-shadow: 0 12px 30px rgba(20, 28, 38, 0.1);
+}
+
+.task-board-card .section-head {
+  margin: 0;
+  padding: 1.75rem 2rem 1.5rem;
+  border-bottom: 1px solid #dfe4ec;
+}
+
+.task-board-card .section-head h2 {
+  font-size: 1.75rem;
+  line-height: 1.1;
+}
+
+.task-board-card .section-head a {
+  color: #2f6fd8;
+  font-size: 1rem;
+}
+
+.task-board-card .panel-subtitle {
+  margin-top: 0.8rem;
+  color: #626b7a;
+  font-size: 1rem;
+}
+
+.task-board-table thead th {
+  padding: 1.15rem 2rem;
+  color: #1f2937;
+  font-size: 0.92rem;
+  text-transform: none;
+}
+
+.task-board-table tbody td {
+  padding: 1.45rem 2rem;
+  color: #1d2430;
+  font-size: 0.95rem;
+}
+
+.task-board-row {
+  cursor: pointer;
+}
+
+.task-board-row:focus-visible {
+  outline: 3px solid rgba(47, 111, 216, 0.22);
+  outline-offset: -3px;
+}
+
+.task-board-card .title-cell {
+  gap: 1rem;
+}
+
+.task-board-card .title-cell strong {
+  font-size: 1rem;
+}
+
+.task-board-card .title-cell small {
+  margin-top: 0.25rem;
+  color: #667085;
+  font-size: 0.9rem;
+}
+
+.task-board-icon {
+  width: 52px;
+  height: 52px;
+  color: #2f6fd8;
+  background: #eaf1ff;
+  border-radius: 50%;
+}
+
+.task-board-icon.priority-icon-medium {
+  color: #2f7d3f;
+  background: #eaf7ec;
+}
+
+.task-board-icon.priority-icon-low {
+  color: #6a42d8;
+  background: #f0ebff;
+}
+
+.task-board-status,
+.task-board-priority {
+  min-height: 34px;
+  gap: 0.5rem;
+  padding: 0.42rem 0.75rem;
+  font-size: 0.92rem;
+  font-weight: 750;
+}
+
+.task-board-status.status-progress {
+  color: #2f6fd8;
+  background: #eaf1ff;
+}
+
+.task-board-status.status-todo {
+  color: #4b5563;
+  background: #f0f1f3;
+}
+
+.task-board-status.status-done {
+  color: #3f8746;
+  background: #eaf7ec;
+}
+
+.pill-dot {
+  width: 10px;
+  height: 10px;
+  background: currentColor;
+  border-radius: 50%;
+}
+
+.task-board-status.status-done .pill-dot {
+  position: relative;
+  width: 16px;
+  height: 16px;
+}
+
+.task-board-status.status-done .pill-dot::after {
+  position: absolute;
+  top: 0;
+  left: 4px;
+  color: #fff;
+  content: "\2713";
+  font-size: 0.68rem;
+  line-height: 16px;
+}
+
+.task-board-priority.priority-high {
+  color: #c43f3a;
+  background: #fdecea;
+}
+
+.task-board-priority.priority-medium {
+  color: #c9861e;
+  background: #fff6db;
+}
+
+.task-board-priority.priority-low {
+  color: #3f8746;
+  background: #eaf7ec;
+}
+
+.pill-arrow {
+  min-width: 0.8rem;
+  font-size: 1.1rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
 .role-board {
   display: grid;
   gap: 1rem;

@@ -31,6 +31,17 @@ def _priority_badge_class(priority):
     return priority_classes.get(priority, "status-review")
 
 
+def _get_task_for_lead(task_id, lead_team_member):
+    # This function finds only tasks that belong to the lead's own team.
+    if not lead_team_member:
+        return None
+
+    return Task.objects.filter(
+        id=task_id,
+        project__team=lead_team_member.team,
+    ).first()
+
+
 def _create_task_for_lead(request, lead_team_member):
     # This function creates a new task only inside the lead's own team.
     if not lead_team_member:
@@ -71,6 +82,61 @@ def _create_task_for_lead(request, lead_team_member):
     return redirect("dashboard")
 
 
+def _update_task_for_lead(request, lead_team_member):
+    # This function updates an existing task from the lead dashboard.
+    task = _get_task_for_lead(request.POST.get("task_id"), lead_team_member)
+
+    if not task:
+        messages.error(request, "Task not found for your team.")
+        return redirect("dashboard")
+
+    title = request.POST.get("title", "").strip()
+    description = request.POST.get("description", "").strip()
+    project_id = request.POST.get("project")
+    assigned_to_id = request.POST.get("assigned_to")
+    status = request.POST.get("status", "todo")
+    priority = request.POST.get("priority", "medium")
+    due_date = request.POST.get("due_date") or None
+
+    project = Project.objects.filter(
+        id=project_id,
+        team=lead_team_member.team,
+    ).first()
+    assigned_member = TeamMember.objects.filter(
+        team=lead_team_member.team,
+        user_id=assigned_to_id,
+    ).first()
+
+    if not title or not project or not assigned_member:
+        messages.error(request, "Please add a title, project, and team member.")
+        return redirect("dashboard")
+
+    task.project = project
+    task.assigned_to = assigned_member.user
+    task.title = title
+    task.description = description
+    task.status = status
+    task.priority = priority
+    task.due_date = due_date
+    task.save()
+
+    messages.success(request, "Task updated successfully.")
+    return redirect("dashboard")
+
+
+def _delete_task_for_lead(request, lead_team_member):
+    # This function deletes a task only if it belongs to the lead's own team.
+    task = _get_task_for_lead(request.POST.get("task_id"), lead_team_member)
+
+    if not task:
+        messages.error(request, "Task not found for your team.")
+        return redirect("dashboard")
+
+    task.delete()
+    messages.success(request, "Task deleted successfully.")
+    return redirect("dashboard")
+
+
 @login_required(login_url="sign_in")
 def dashboard(request):
     # This section finds the logged-in user's company role.
@@ -87,8 +153,17 @@ def dashboard(request):
                 role="lead",
             ).select_related("team").first()
 
-            if request.method == "POST" and request.POST.get("form_name") == "assign_task":
-                return _create_task_for_lead(request, lead_team_member)
+            if request.method == "POST":
+                form_name = request.POST.get("form_name")
+
+                if form_name == "assign_task":
+                    return _create_task_for_lead(request, lead_team_member)
+
+                if form_name == "update_task":
+                    return _update_task_for_lead(request, lead_team_member)
+
+                if form_name == "delete_task":
+                    return _delete_task_for_lead(request, lead_team_member)
 
             # This section prepares empty values, so the page will not break if no team is found.
             team = lead_team_member.team if lead_team_member else None
@@ -131,11 +206,17 @@ def dashboard(request):
                 team_task_rows.append({
                     "title": task.title,
                     "description": task.description or "No description added",
+                    "description_value": task.description or "",
+                    "id": task.id,
+                    "project_id": task.project.id,
                     "project_name": task.project.name,
+                    "assigned_to_id": task.assigned_to.id,
                     "member_name": task.assigned_to.username,
                     "task_status": task.get_status_display(),
+                    "status_value": task.status,
                     "status_class": _status_badge_class(task.status),
                     "task_priority": task.get_priority_display(),
+                    "priority_value": task.priority,
                     "priority_class": _priority_badge_class(task.priority),
                     "task_due_date": task.due_date,
                 })

@@ -52,7 +52,7 @@
         <p>Track team workload, review member progress, and keep delivery moving.</p>
       </div>
       <div class="heading-actions">
-        <button class="work-button primary-button" type="button" data-open-modal>
+        <button class="work-button primary-button" type="button" data-open-modal="assign-task">
           <svg><use href="#icon-task"></use></svg>
           <span>Assign Task</span>
         </button>
@@ -89,7 +89,7 @@
 
     <section class="role-layout mt-4">
       <!-- This section shows all tasks that belong to the lead's team. -->
-      <article class="panel">
+      <article class="panel task-board-card">
         <div class="section-head">
           <div>
             <h2>Team Task Board</h2>
@@ -98,7 +98,7 @@
           <a href="{% url 'tasks' %}">Open Tasks</a>
         </div>
         <div class="table-responsive">
-          <table class="table data-table align-middle">
+          <table class="table data-table task-board-table align-middle">
             <thead>
               <tr>
                 <th>Task</th>
@@ -111,10 +111,10 @@
             </thead>
             <tbody>
               {% for row in team_task_rows %}
-                <tr data-search-text="{{ row.title }} {{ row.project_name }} {{ row.member_name }} {{ row.task_status }} {{ row.task_priority }}">
+                <tr class="task-board-row" role="button" tabindex="0" data-open-modal="edit-task-{{ row.id }}" data-search-text="{{ row.title }} {{ row.description }} {{ row.project_name }} {{ row.member_name }} {{ row.task_status }} {{ row.task_priority }}">
                   <td>
                     <div class="title-cell">
-                      <span class="summary-icon"><svg><use href="#icon-task"></use></svg></span>
+                      <span class="summary-icon task-board-icon priority-icon-{{ row.priority_value }}"><svg><use href="#icon-task"></use></svg></span>
                       <div>
                         <strong>{{ row.title }}</strong>
                         <small>{{ row.description }}</small>
@@ -123,8 +123,20 @@
                   </td>
                   <td>{{ row.project_name }}</td>
                   <td>{{ row.member_name }}</td>
-                  <td><span class="status-pill {{ row.status_class }}">{{ row.task_status }}</span></td>
-                  <td><span class="status-pill {{ row.priority_class }}">{{ row.task_priority }}</span></td>
+                  <td>
+                    <span class="status-pill task-board-status {{ row.status_class }}">
+                      <span class="pill-dot"></span>
+                      {{ row.task_status }}
+                    </span>
+                  </td>
+                  <td>
+                    <span class="status-pill task-board-priority priority-{{ row.priority_value }}">
+                      <span class="pill-arrow">
+                        {% if row.priority_value == "high" %}&uarr;{% elif row.priority_value == "low" %}&darr;{% else %}&minus;{% endif %}
+                      </span>
+                      {{ row.task_priority }}
+                    </span>
+                  </td>
                   <td>
                     {% if row.task_due_date %}
                       {{ row.task_due_date|date:"M d, Y" }}
@@ -214,7 +226,7 @@
   </main>
 
   <!-- This modal opens when the lead clicks Assign Task. -->
-  <aside class="workspace-modal" data-modal aria-hidden="true">
+  <aside class="workspace-modal" data-modal data-modal-name="assign-task" aria-hidden="true">
     <button class="modal-backdrop-lite" type="button" data-close-modal aria-label="Close modal"></button>
     <section class="modal-panel" aria-label="Assign task form">
       <header class="modal-head">
@@ -290,6 +302,117 @@
       </div>
     </section>
   </aside>
+
+  <!-- These modals update existing tasks from the Team Task Board. -->
+  {% for row in team_task_rows %}
+    <aside class="workspace-modal" data-modal data-modal-name="edit-task-{{ row.id }}" aria-hidden="true">
+      <button class="modal-backdrop-lite" type="button" data-close-modal aria-label="Close modal"></button>
+      <section class="modal-panel" aria-label="Edit task form">
+        <header class="modal-head">
+          <h2>Edit Task</h2>
+          <button class="plain-icon" type="button" data-close-modal aria-label="Close modal">&times;</button>
+        </header>
+        <div class="modal-body">
+          <form class="form-grid" method="post" action="{% url 'dashboard' %}">
+            {% csrf_token %}
+            <input type="hidden" name="form_name" value="update_task">
+            <input type="hidden" name="task_id" value="{{ row.id }}">
+
+            <!-- This field updates the task title. -->
+            <label>
+              Task title
+              <input class="field" type="text" name="title" value="{{ row.title }}" required>
+            </label>
+
+            <!-- This field moves the task to another project in the same team. -->
+            <label>
+              Project
+              <select class="field" name="project" required>
+                {% for project in available_projects %}
+                  <option value="{{ project.id }}" {% if project.id == row.project_id %}selected{% endif %}>{{ project.name }}</option>
+                {% endfor %}
+              </select>
+            </label>
+
+            <!-- This field changes the member assigned to the task. -->
+            <label>
+              Assign to
+              <select class="field" name="assigned_to" required>
+                {% for member in team_members %}
+                  <option value="{{ member.user.id }}" {% if member.user.id == row.assigned_to_id %}selected{% endif %}>{{ member.user.username }} - {{ member.get_role_display }}</option>
+                {% endfor %}
+              </select>
+            </label>
+
+            <!-- These fields update task status, priority, and due date. -->
+            <label>
+              Status
+              <select class="field" name="status">
+                <option value="todo" {% if row.status_value == "todo" %}selected{% endif %}>To Do</option>
+                <option value="in_progress" {% if row.status_value == "in_progress" %}selected{% endif %}>In Progress</option>
+                <option value="done" {% if row.status_value == "done" %}selected{% endif %}>Done</option>
+              </select>
+            </label>
+            <label>
+              Priority
+              <select class="field" name="priority">
+                <option value="low" {% if row.priority_value == "low" %}selected{% endif %}>Low</option>
+                <option value="medium" {% if row.priority_value == "medium" %}selected{% endif %}>Medium</option>
+                <option value="high" {% if row.priority_value == "high" %}selected{% endif %}>High</option>
+              </select>
+            </label>
+            <label>
+              Due date
+              <input class="field" type="date" name="due_date" value="{{ row.task_due_date|date:'Y-m-d' }}">
+            </label>
+
+            <!-- This field updates extra task details. -->
+            <label>
+              Description
+              <textarea class="field" name="description">{{ row.description_value }}</textarea>
+            </label>
+
+            <div class="modal-actions">
+              <button class="work-button danger-button" type="button" data-open-modal="delete-task-{{ row.id }}">Delete Task</button>
+              <button class="work-button ghost-button" type="button" data-close-modal>Cancel</button>
+              <button class="work-button primary-button" type="submit">Update Task</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </aside>
+  {% endfor %}
+
+  <!-- These modals delete tasks from the lead dashboard. -->
+  {% for row in team_task_rows %}
+    <aside class="workspace-modal" data-modal data-modal-name="delete-task-{{ row.id }}" aria-hidden="true">
+      <button class="modal-backdrop-lite" type="button" data-close-modal aria-label="Close modal"></button>
+      <section class="modal-panel" aria-label="Delete task confirmation">
+        <header class="modal-head">
+          <h2>Delete Task</h2>
+          <button class="plain-icon" type="button" data-close-modal aria-label="Close modal">&times;</button>
+        </header>
+        <div class="modal-body">
+          <form class="form-grid" method="post" action="{% url 'dashboard' %}">
+            {% csrf_token %}
+            <input type="hidden" name="form_name" value="delete_task">
+            <input type="hidden" name="task_id" value="{{ row.id }}">
+
+            <!-- This message confirms which task will be deleted. -->
+            <div class="modal-warning">
+              <strong>{{ row.title }}</strong>
+              <span>This task will be removed from the lead dashboard and task table.</span>
+            </div>
+
+            <div class="modal-actions">
+              <button class="work-button ghost-button" type="button" data-close-modal>Cancel</button>
+              <button class="work-button danger-button" type="submit">Delete Task</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </aside>
+  {% endfor %}
 
   <script src="{% static 'js/core/bootstrap.bundle.min.js' %}"></script>
   <script src="{% static 'js/workspace.js' %}"></script>

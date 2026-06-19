@@ -8,23 +8,43 @@
   <link rel="icon" href="{% static 'img/favicon.png' %}">
   <link rel="stylesheet" href="{% static 'css/material-dashboard.css' %}">
   <link rel="stylesheet" href="{% static 'css/workspace.css' %}">
+  <link rel="stylesheet" href="{% static 'css/role-dashboards.css' %}">
 </head>
 <body class="workspace-page">
   {% include 'includes/module_icons.html' %}
   {% include 'includes/module_sidebar.html' with active='teams' %}
 
   <main class="module-main">
-    {% include 'includes/module_topbar.html' with page_title='Teams' search_id='teamSearch' search_placeholder='Search members...' %}
+    {% include 'includes/module_topbar.html' with page_title='Teams' search_id='teamSearch' search_placeholder='Search teams or members...' %}
+
+    <!-- This section shows success or error messages after team CRUD actions. -->
+    {% if messages %}
+      <section class="message-list" aria-label="Team messages">
+        {% for message in messages %}
+          <div class="message-card {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      </section>
+    {% endif %}
 
     <section class="page-heading">
       <div>
         <h1>Teams</h1>
         <p>Manage members, roles, availability, and team capacity.</p>
       </div>
-      <button class="work-button primary-button" type="button" data-open-modal>
-        <svg><use href="#icon-plus"></use></svg>
-        <span>Invite Member</span>
-      </button>
+      <div class="heading-actions">
+        {% if can_manage_teams %}
+          <button class="work-button ghost-button" type="button" data-open-modal="create-team">
+            <svg><use href="#icon-folder"></use></svg>
+            <span>New Team</span>
+          </button>
+        {% endif %}
+        {% if can_manage_members %}
+          <button class="work-button primary-button" type="button" data-open-modal="create-member">
+            <svg><use href="#icon-plus"></use></svg>
+            <span>Add Member</span>
+          </button>
+        {% endif %}
+      </div>
     </section>
 
     <section class="layout-grid">
@@ -36,30 +56,61 @@
           </div>
         </div>
         <div class="filter-strip">
-          <select aria-label="Role filter"><option>All Roles</option><option>Designer</option><option>Engineer</option><option>Manager</option></select>
-          <select aria-label="Department filter"><option>Department</option><option>Design</option><option>Mobile</option><option>Platform</option></select>
-          <select aria-label="Availability filter"><option>Availability</option><option>Available</option><option>Busy</option><option>Offline</option></select>
+          <span class="badge-pill badge-blue">Members: {{ member_rows|length }}</span>
+          <span class="badge-pill badge-green">Teams: {{ team_rows|length }}</span>
+          {% if can_manage_members %}
+            <span class="badge-pill badge-orange">Member CRUD enabled</span>
+          {% else %}
+            <span class="badge-pill badge-gray">Read only</span>
+          {% endif %}
         </div>
         <div class="table-responsive">
           <table class="table data-table align-middle">
-            <thead><tr><th>Member</th><th>Role</th><th>Team</th><th>Workload</th><th>Status</th><th></th></tr></thead>
+            <thead>
+              <tr>
+                <th>Member</th>
+                <th>Role</th>
+                <th>Team</th>
+                <th>Workload</th>
+                <th>Status</th>
+                <th></th>
+              </tr>
+            </thead>
             <tbody>
-              <tr data-open-drawer data-search-text="sophie martin designer design available" data-drawer-title="Sophie Martin" data-drawer-subtitle="Product Designer" data-drawer-status="Available" data-drawer-owner="Design Team" data-drawer-due="76% workload">
-                <td><div class="person-cell"><img src="{% static 'img/team-2.jpg' %}" alt="Sophie Martin"><div><strong>Sophie Martin</strong><small>sophie.martin@example.com</small></div></div></td>
-                <td>Designer</td><td>Design</td><td><div class="progress-track"><span style="width: 76%;"></span></div></td><td><span class="status-pill status-online">Available</span></td><td><button class="row-action" type="button"><svg><use href="#icon-more"></use></svg></button></td>
-              </tr>
-              <tr data-open-drawer data-search-text="michael chen engineer mobile available" data-drawer-title="Michael Chen" data-drawer-subtitle="Mobile Engineer" data-drawer-status="Available" data-drawer-owner="Mobile Team" data-drawer-due="58% workload">
-                <td><div class="person-cell"><img src="{% static 'img/bruce-mars.jpg' %}" alt="Michael Chen"><div><strong>Michael Chen</strong><small>michael.chen@example.com</small></div></div></td>
-                <td>Engineer</td><td>Mobile</td><td><div class="progress-track"><span style="width: 58%;"></span></div></td><td><span class="status-pill status-online">Available</span></td><td><button class="row-action" type="button"><svg><use href="#icon-more"></use></svg></button></td>
-              </tr>
-              <tr data-open-drawer data-search-text="olivia davis engineer platform busy" data-drawer-title="Olivia Davis" data-drawer-subtitle="Platform Engineer" data-drawer-status="Busy" data-drawer-owner="Platform Team" data-drawer-due="92% workload">
-                <td><div class="person-cell"><img src="{% static 'img/ivana-square.jpg' %}" alt="Olivia Davis"><div><strong>Olivia Davis</strong><small>olivia.davis@example.com</small></div></div></td>
-                <td>Engineer</td><td>Platform</td><td><div class="progress-track"><span style="width: 92%;"></span></div></td><td><span class="status-pill status-progress">Busy</span></td><td><button class="row-action" type="button"><svg><use href="#icon-more"></use></svg></button></td>
-              </tr>
-              <tr data-open-drawer data-search-text="daniel lee manager operations offline" data-drawer-title="Daniel Lee" data-drawer-subtitle="Operations Manager" data-drawer-status="Offline" data-drawer-owner="Operations" data-drawer-due="44% workload">
-                <td><div class="person-cell"><img src="{% static 'img/team-4.jpg' %}" alt="Daniel Lee"><div><strong>Daniel Lee</strong><small>daniel.lee@example.com</small></div></div></td>
-                <td>Manager</td><td>Operations</td><td><div class="progress-track"><span style="width: 44%;"></span></div></td><td><span class="status-pill status-offline">Offline</span></td><td><button class="row-action" type="button"><svg><use href="#icon-more"></use></svg></button></td>
-              </tr>
+              {% for row in member_rows %}
+                <tr data-open-drawer data-search-text="{{ row.username }} {{ row.email }} {{ row.role_label }} {{ row.team_name }} {{ row.status_label }}" data-drawer-title="{{ row.username }}" data-drawer-subtitle="{{ row.role_label }}" data-drawer-status="{{ row.status_label }}" data-drawer-owner="{{ row.team_name }}" data-drawer-due="{{ row.workload_percent }}% workload" data-drawer-detail="{{ row.active_task_count }} active task(s) assigned in this team.">
+                  <td>
+                    <div class="person-cell">
+                      <span class="summary-icon blue"><svg><use href="#icon-user"></use></svg></span>
+                      <div>
+                        <strong>{{ row.username }}</strong>
+                        <small>{{ row.email }}</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>{{ row.role_label }}</td>
+                  <td>{{ row.team_name }}</td>
+                  <td>
+                    <div class="progress-track"><span style="width: {{ row.workload_percent }}%;"></span></div>
+                    <small>{{ row.active_task_count }} active task(s)</small>
+                  </td>
+                  <td><span class="status-pill {{ row.status_class }}">{{ row.status_label }}</span></td>
+                  <td>
+                    {% if can_manage_members %}
+                      <div class="table-actions">
+                        <button class="work-button ghost-button compact-button" type="button" data-open-modal="edit-member-{{ row.id }}">Edit</button>
+                        <button class="work-button danger-button compact-button" type="button" data-open-modal="delete-member-{{ row.id }}">Delete</button>
+                      </div>
+                    {% else %}
+                      <button class="row-action" type="button" aria-label="View member"><svg><use href="#icon-more"></use></svg></button>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="6">No team members found.</td>
+                </tr>
+              {% endfor %}
             </tbody>
           </table>
         </div>
@@ -69,20 +120,272 @@
         <div class="section-head">
           <div>
             <h2>Team Capacity</h2>
-            <p class="panel-subtitle">Where attention is needed</p>
+            <p class="panel-subtitle">Real teams and active task load</p>
           </div>
         </div>
         <div class="stack-list">
-          <div class="stack-item"><span class="dot green"></span><div><strong>Design</strong><small>4 members, healthy load</small></div><span>72%</span></div>
-          <div class="stack-item"><span class="dot orange"></span><div><strong>Platform</strong><small>Olivia near capacity</small></div><span>88%</span></div>
-          <div class="stack-item"><span class="dot blue"></span><div><strong>Mobile</strong><small>Release support ready</small></div><span>61%</span></div>
+          {% for row in team_rows %}
+            <div class="stack-item" data-search-text="{{ row.name }} {{ row.department }} {{ row.description }}">
+              <span class="dot {{ row.dot_class }}"></span>
+              <div>
+                <strong>{{ row.name }}</strong>
+                <small>{{ row.member_count }} member(s), {{ row.active_task_count }} active task(s)</small>
+              </div>
+              <div class="table-actions">
+                <span>{{ row.capacity_percent }}%</span>
+                {% if can_manage_teams %}
+                  <button class="plain-icon" type="button" data-open-modal="edit-team-{{ row.id }}" aria-label="Edit team"><svg><use href="#icon-more"></use></svg></button>
+                {% endif %}
+              </div>
+            </div>
+          {% empty %}
+            <div class="stack-item">
+              <span class="dot"></span>
+              <div>
+                <strong>No teams found</strong>
+                <small>Create a team before adding members.</small>
+              </div>
+              <span>0%</span>
+            </div>
+          {% endfor %}
         </div>
       </aside>
     </section>
   </main>
 
   {% include 'includes/workspace_drawer.html' %}
-  {% include 'includes/workspace_modal.html' with modal_title='Invite Member' name_placeholder='Member email' owner_placeholder='Role or team' notes_placeholder='Invite note' modal_action='Send Invite' %}
+
+  {% if can_manage_teams %}
+    <!-- C in CRUD for Team: this modal creates a new team. -->
+    <aside class="workspace-modal" data-modal data-modal-name="create-team" aria-hidden="true">
+      <button class="modal-backdrop-lite" type="button" data-close-modal aria-label="Close modal"></button>
+      <section class="modal-panel" aria-label="Create team form">
+        <header class="modal-head">
+          <h2>Create Team</h2>
+          <button class="plain-icon" type="button" data-close-modal aria-label="Close modal">&times;</button>
+        </header>
+        <div class="modal-body">
+          <form class="form-grid" method="post" action="{% url 'teams' %}">
+            {% csrf_token %}
+            <input type="hidden" name="form_name" value="create_team">
+
+            <label>
+              Team name
+              <input class="field" type="text" name="name" placeholder="Example: Backend Team" required>
+            </label>
+            <label>
+              Department
+              <input class="field" type="text" name="department" placeholder="Example: Engineering">
+            </label>
+            <label>
+              Description
+              <textarea class="field" name="description" placeholder="What this team owns"></textarea>
+            </label>
+
+            <div class="modal-actions">
+              <button class="work-button ghost-button" type="button" data-close-modal>Cancel</button>
+              <button class="work-button primary-button" type="submit">Create Team</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </aside>
+
+    <!-- U and D in CRUD for Team: these modals edit or delete existing teams. -->
+    {% for row in team_rows %}
+      <aside class="workspace-modal" data-modal data-modal-name="edit-team-{{ row.id }}" aria-hidden="true">
+        <button class="modal-backdrop-lite" type="button" data-close-modal aria-label="Close modal"></button>
+        <section class="modal-panel" aria-label="Edit team form">
+          <header class="modal-head">
+            <h2>Edit Team</h2>
+            <button class="plain-icon" type="button" data-close-modal aria-label="Close modal">&times;</button>
+          </header>
+          <div class="modal-body">
+            <form class="form-grid" method="post" action="{% url 'teams' %}">
+              {% csrf_token %}
+              <input type="hidden" name="form_name" value="update_team">
+              <input type="hidden" name="team_id" value="{{ row.id }}">
+
+              <label>
+                Team name
+                <input class="field" type="text" name="name" value="{{ row.name }}" required>
+              </label>
+              <label>
+                Department
+                <input class="field" type="text" name="department" value="{{ row.department_value }}">
+              </label>
+              <label>
+                Description
+                <textarea class="field" name="description">{{ row.description_value }}</textarea>
+              </label>
+
+              <div class="modal-actions">
+                <button class="work-button danger-button" type="button" data-open-modal="delete-team-{{ row.id }}">Delete Team</button>
+                <button class="work-button ghost-button" type="button" data-close-modal>Cancel</button>
+                <button class="work-button primary-button" type="submit">Update Team</button>
+              </div>
+            </form>
+          </div>
+        </section>
+      </aside>
+
+      <aside class="workspace-modal" data-modal data-modal-name="delete-team-{{ row.id }}" aria-hidden="true">
+        <button class="modal-backdrop-lite" type="button" data-close-modal aria-label="Close modal"></button>
+        <section class="modal-panel" aria-label="Delete team confirmation">
+          <header class="modal-head">
+            <h2>Delete Team</h2>
+            <button class="plain-icon" type="button" data-close-modal aria-label="Close modal">&times;</button>
+          </header>
+          <div class="modal-body">
+            <form class="form-grid" method="post" action="{% url 'teams' %}">
+              {% csrf_token %}
+              <input type="hidden" name="form_name" value="delete_team">
+              <input type="hidden" name="team_id" value="{{ row.id }}">
+
+              <div class="modal-warning">
+                <strong>{{ row.name }}</strong>
+                <span>This team and its connected members, projects, and tasks will be removed.</span>
+              </div>
+
+              <div class="modal-actions">
+                <button class="work-button ghost-button" type="button" data-close-modal>Cancel</button>
+                <button class="work-button danger-button" type="submit">Delete Team</button>
+              </div>
+            </form>
+          </div>
+        </section>
+      </aside>
+    {% endfor %}
+  {% endif %}
+
+  {% if can_manage_members %}
+    <!-- C in CRUD for TeamMember: this modal adds a member to a team. -->
+    <aside class="workspace-modal" data-modal data-modal-name="create-member" aria-hidden="true">
+      <button class="modal-backdrop-lite" type="button" data-close-modal aria-label="Close modal"></button>
+      <section class="modal-panel" aria-label="Add member form">
+        <header class="modal-head">
+          <h2>Add Member</h2>
+          <button class="plain-icon" type="button" data-close-modal aria-label="Close modal">&times;</button>
+        </header>
+        <div class="modal-body">
+          <form class="form-grid" method="post" action="{% url 'teams' %}">
+            {% csrf_token %}
+            <input type="hidden" name="form_name" value="create_team_member">
+
+            <label>
+              User
+              <select class="field" name="user" required>
+                <option value="">Select user</option>
+                {% for user in available_users %}
+                  <option value="{{ user.id }}">{{ user.username }} - {{ user.email|default:"No email" }}</option>
+                {% endfor %}
+              </select>
+            </label>
+            <label>
+              Team
+              <select class="field" name="team" required>
+                <option value="">Select team</option>
+                {% for team in team_options %}
+                  <option value="{{ team.id }}">{{ team.name }}</option>
+                {% endfor %}
+              </select>
+            </label>
+            <label>
+              Role
+              <select class="field" name="role">
+                {% for value, label in role_choices %}
+                  <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+              </select>
+            </label>
+
+            <div class="modal-actions">
+              <button class="work-button ghost-button" type="button" data-close-modal>Cancel</button>
+              <button class="work-button primary-button" type="submit">Add Member</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </aside>
+
+    <!-- U and D in CRUD for TeamMember: these modals edit or remove members. -->
+    {% for row in member_rows %}
+      <aside class="workspace-modal" data-modal data-modal-name="edit-member-{{ row.id }}" aria-hidden="true">
+        <button class="modal-backdrop-lite" type="button" data-close-modal aria-label="Close modal"></button>
+        <section class="modal-panel" aria-label="Edit member form">
+          <header class="modal-head">
+            <h2>Edit Member</h2>
+            <button class="plain-icon" type="button" data-close-modal aria-label="Close modal">&times;</button>
+          </header>
+          <div class="modal-body">
+            <form class="form-grid" method="post" action="{% url 'teams' %}">
+              {% csrf_token %}
+              <input type="hidden" name="form_name" value="update_team_member">
+              <input type="hidden" name="member_id" value="{{ row.id }}">
+
+              <label>
+                User
+                <select class="field" name="user" required>
+                  {% for user in available_users %}
+                    <option value="{{ user.id }}" {% if user.id == row.user_id %}selected{% endif %}>{{ user.username }} - {{ user.email|default:"No email" }}</option>
+                  {% endfor %}
+                </select>
+              </label>
+              <label>
+                Team
+                <select class="field" name="team" required>
+                  {% for team in team_options %}
+                    <option value="{{ team.id }}" {% if team.id == row.team_id %}selected{% endif %}>{{ team.name }}</option>
+                  {% endfor %}
+                </select>
+              </label>
+              <label>
+                Role
+                <select class="field" name="role">
+                  {% for value, label in role_choices %}
+                    <option value="{{ value }}" {% if value == row.role_value %}selected{% endif %}>{{ label }}</option>
+                  {% endfor %}
+                </select>
+              </label>
+
+              <div class="modal-actions">
+                <button class="work-button danger-button" type="button" data-open-modal="delete-member-{{ row.id }}">Delete Member</button>
+                <button class="work-button ghost-button" type="button" data-close-modal>Cancel</button>
+                <button class="work-button primary-button" type="submit">Update Member</button>
+              </div>
+            </form>
+          </div>
+        </section>
+      </aside>
+
+      <aside class="workspace-modal" data-modal data-modal-name="delete-member-{{ row.id }}" aria-hidden="true">
+        <button class="modal-backdrop-lite" type="button" data-close-modal aria-label="Close modal"></button>
+        <section class="modal-panel" aria-label="Delete member confirmation">
+          <header class="modal-head">
+            <h2>Delete Member</h2>
+            <button class="plain-icon" type="button" data-close-modal aria-label="Close modal">&times;</button>
+          </header>
+          <div class="modal-body">
+            <form class="form-grid" method="post" action="{% url 'teams' %}">
+              {% csrf_token %}
+              <input type="hidden" name="form_name" value="delete_team_member">
+              <input type="hidden" name="member_id" value="{{ row.id }}">
+
+              <div class="modal-warning">
+                <strong>{{ row.username }}</strong>
+                <span>This member will be removed from {{ row.team_name }}.</span>
+              </div>
+
+              <div class="modal-actions">
+                <button class="work-button ghost-button" type="button" data-close-modal>Cancel</button>
+                <button class="work-button danger-button" type="submit">Delete Member</button>
+              </div>
+            </form>
+          </div>
+        </section>
+      </aside>
+    {% endfor %}
+  {% endif %}
 
   <script src="{% static 'js/core/bootstrap.bundle.min.js' %}"></script>
   <script src="{% static 'js/workspace.js' %}"></script>
