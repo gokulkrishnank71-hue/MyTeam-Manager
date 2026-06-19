@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Company Admin Dashboard - MyTeam Manager</title>
+  <link rel="icon" href="{% static 'img/favicon.png' %}">
+  <link rel="stylesheet" href="{% static 'css/material-dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'css/workspace.css' %}">
+  <link rel="stylesheet" href="{% static 'css/role-dashboards.css' %}">
+</head>
+<body class="workspace-page role-shell">
+  {% include 'includes/module_icons.html' %}
+
+  <aside class="module-sidebar">
+    <a class="brand" href="{% url 'dashboard' %}">
+      <span class="brand-icon"><svg><use href="#icon-logo"></use></svg></span>
+      <span>MyTeam Manager</span>
+    </a>
+    <nav class="sidebar-nav" aria-label="Company admin navigation">
+      <a class="nav-link active" href="{% url 'dashboard' %}"><svg><use href="#icon-dashboard"></use></svg><span>Dashboard</span></a>
+      <a class="nav-link" href="{% url 'teams' %}"><svg><use href="#icon-users"></use></svg><span>Teams</span></a>
+      <a class="nav-link" href="{% url 'projects' %}"><svg><use href="#icon-folder"></use></svg><span>Projects</span></a>
+      <a class="nav-link" href="{% url 'tasks' %}"><svg><use href="#icon-task"></use></svg><span>Tasks</span></a>
+      <a class="nav-link" href="{% url 'reports' %}"><svg><use href="#icon-report"></use></svg><span>Reports</span></a>
+      <a class="nav-link" href="{% url 'settings' %}"><svg><use href="#icon-settings"></use></svg><span>Settings</span></a>
+      <a class="nav-link" href="{% url 'notifications' %}"><svg><use href="#icon-bell"></use></svg><span>Notifications</span></a>
+    </nav>
+    <nav class="sidebar-account" aria-label="Account navigation">
+      <p class="nav-section">Account</p>
+      <a class="nav-link" href="{% url 'profile' %}"><svg><use href="#icon-user"></use></svg><span>Profile</span></a>
+    </nav>
+  </aside>
+
+  <main class="module-main">
+    {% include 'includes/module_topbar.html' with page_title='Company Admin' search_id='adminSearch' search_placeholder='Search company work...' %}
+
+    <section class="page-heading">
+      <div>
+        <span class="role-kicker">Company admin workspace</span>
+        <h1>Company Control Center</h1>
+        <p>Manage company structure, teams, projects, tasks, and delivery risk.</p>
+      </div>
+      <div class="heading-actions">
+        <button class="work-button primary-button" type="button"><svg><use href="#icon-plus"></use></svg><span>Create Task</span></button>
+        <button class="work-button ghost-button" type="button"><svg><use href="#icon-users"></use></svg><span>Add Member</span></button>
+      </div>
+    </section>
+
+    <section class="metric-grid" aria-label="Company admin summary">
+      <article class="metric-card"><div><small>Members</small><strong>5</strong></div><span class="metric-icon"><svg><use href="#icon-users"></use></svg></span><em>1 admin, 1 lead, 3 members</em></article>
+      <article class="metric-card"><div><small>Active Teams</small><strong>1</strong></div><span class="metric-icon blue"><svg><use href="#icon-dashboard"></use></svg></span><em>Backend Team is active</em></article>
+      <article class="metric-card"><div><small>Projects</small><strong>1</strong></div><span class="metric-icon green"><svg><use href="#icon-folder"></use></svg></span><em>Employee Task Tracker API</em></article>
+      <article class="metric-card"><div><small>Open Tasks</small><strong>5</strong></div><span class="metric-icon orange"><svg><use href="#icon-task"></use></svg></span><em>2 high priority items</em></article>
+    </section>
+
+    <section class="role-action-grid mt-4" aria-label="Company admin actions">
+      <a class="role-action" href="{% url 'teams' %}"><span><svg><use href="#icon-users"></use></svg></span><strong>Manage members</strong><small>Add users to company and assign their company role.</small></a>
+      <a class="role-action blue" href="{% url 'projects' %}"><span><svg><use href="#icon-folder"></use></svg></span><strong>Review projects</strong><small>Track project owner, priority, progress, and deadline risk.</small></a>
+      <a class="role-action green" href="{% url 'reports' %}"><span><svg><use href="#icon-report"></use></svg></span><strong>Open reports</strong><small>See delivery, team capacity, and pending approval summaries.</small></a>
+    </section>
+
+    <section class="role-layout mt-4">
+      <article class="panel">
+        <div class="section-head">
+          <div>
+            <h2>Company Work Overview</h2>
+            <p class="panel-subtitle">Admin sees full company-level work.</p>
+          </div>
+          <span class="badge-pill badge-green">Healthy</span>
+        </div>
+        <div class="table-responsive">
+          <table class="table data-table align-middle">
+            <thead><tr><th>Area</th><th>Owner</th><th>Status</th><th>Progress</th><th>Next Check</th></tr></thead>
+            <tbody>
+              <tr><td><div class="title-cell"><span class="summary-icon"><svg><use href="#icon-folder"></use></svg></span><div><strong>Employee Task Tracker API</strong><small>Backend delivery project</small></div></div></td><td>Backend Lead</td><td><span class="status-pill status-progress">In Progress</span></td><td><div class="progress-track"><span style="width: 46%;"></span></div></td><td>Today</td></tr>
+              <tr><td><div class="title-cell"><span class="summary-icon blue"><svg><use href="#icon-users"></use></svg></span><div><strong>Backend Team</strong><small>5 assigned members</small></div></div></td><td>Team Lead</td><td><span class="status-pill status-done">Ready</span></td><td><div class="progress-track"><span style="width: 78%;"></span></div></td><td>Tomorrow</td></tr>
+              <tr><td><div class="title-cell"><span class="summary-icon orange"><svg><use href="#icon-task"></use></svg></span><div><strong>Task Plan</strong><small>5 starter tasks assigned</small></div></div></td><td>Company Admin</td><td><span class="status-pill status-review">Review</span></td><td><div class="progress-track"><span style="width: 38%;"></span></div></td><td>Friday</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <aside class="side-panel">
+        <div class="section-head">
+          <div>
+            <h2>Admin Decisions</h2>
+            <p class="panel-subtitle">Items that need company-level attention</p>
+          </div>
+        </div>
+        <div class="role-timeline">
+          <div class="timeline-item"><span class="timeline-dot orange"></span><div><strong>Approve task ownership</strong><small>Confirm admin, lead, and member responsibilities.</small></div></div>
+          <div class="timeline-item"><span class="timeline-dot"></span><div><strong>Review project dates</strong><small>Check whether the due date matches team capacity.</small></div></div>
+          <div class="timeline-item"><span class="timeline-dot green"></span><div><strong>Company setup complete</strong><small>Company, members, team, project, and tasks are ready.</small></div></div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <script src="{% static 'js/core/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'js/workspace.js' %}"></script>
+</body>
+</html>

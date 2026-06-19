@@ -1,0 +1,297 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lead Dashboard - MyTeam Manager</title>
+  <link rel="icon" href="{% static 'img/favicon.png' %}">
+  <link rel="stylesheet" href="{% static 'css/material-dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'css/workspace.css' %}">
+  <link rel="stylesheet" href="{% static 'css/role-dashboards.css' %}">
+</head>
+<body class="workspace-page role-shell">
+  {% include 'includes/module_icons.html' %}
+
+  <aside class="module-sidebar">
+    <a class="brand" href="{% url 'dashboard' %}">
+      <span class="brand-icon"><svg><use href="#icon-logo"></use></svg></span>
+      <span>MyTeam Manager</span>
+    </a>
+    <nav class="sidebar-nav" aria-label="Lead navigation">
+      <a class="nav-link active" href="{% url 'dashboard' %}"><svg><use href="#icon-dashboard"></use></svg><span>Dashboard</span></a>
+      <a class="nav-link" href="{% url 'teams' %}"><svg><use href="#icon-users"></use></svg><span>My Team</span></a>
+      <a class="nav-link" href="{% url 'projects' %}"><svg><use href="#icon-folder"></use></svg><span>Projects</span></a>
+      <a class="nav-link" href="{% url 'tasks' %}"><svg><use href="#icon-task"></use></svg><span>Tasks</span></a>
+      <a class="nav-link" href="{% url 'calendar' %}"><svg><use href="#icon-calendar"></use></svg><span>Calendar</span></a>
+      <a class="nav-link" href="{% url 'notifications' %}"><svg><use href="#icon-bell"></use></svg><span>Notifications</span></a>
+    </nav>
+    <nav class="sidebar-account" aria-label="Account navigation">
+      <p class="nav-section">Account</p>
+      <a class="nav-link" href="{% url 'profile' %}"><svg><use href="#icon-user"></use></svg><span>Profile</span></a>
+    </nav>
+  </aside>
+
+  <main class="module-main">
+    {% include 'includes/module_topbar.html' with page_title='Lead' search_id='leadSearch' search_placeholder='Search team work...' %}
+
+    <!-- This section shows success or error messages after assigning a task. -->
+    {% if messages %}
+      <section class="message-list" aria-label="Dashboard messages">
+        {% for message in messages %}
+          <div class="message-card {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      </section>
+    {% endif %}
+
+    <!-- This section is the lead page heading and action buttons. -->
+    <section class="page-heading">
+      <div>
+        <span class="role-kicker">Team lead workspace</span>
+        <h1>{{ team_name }} Delivery</h1>
+        <p>Track team workload, review member progress, and keep delivery moving.</p>
+      </div>
+      <div class="heading-actions">
+        <button class="work-button primary-button" type="button" data-open-modal>
+          <svg><use href="#icon-task"></use></svg>
+          <span>Assign Task</span>
+        </button>
+        <a class="work-button ghost-button" href="{% url 'notifications' %}">
+          <svg><use href="#icon-bell"></use></svg>
+          <span>Request Update</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- This section shows the four number cards at the top of the dashboard. -->
+    <section class="metric-grid" aria-label="Lead summary">
+      <article class="metric-card">
+        <div><small>Team Members</small><strong>{{ team_member_count }}</strong></div>
+        <span class="metric-icon"><svg><use href="#icon-users"></use></svg></span>
+        <em>Total members including the lead</em>
+      </article>
+      <article class="metric-card">
+        <div><small>Assigned Tasks</small><strong>{{ assigned_task_count }}</strong></div>
+        <span class="metric-icon blue"><svg><use href="#icon-task"></use></svg></span>
+        <em>Tasks currently assigned in this team</em>
+      </article>
+      <article class="metric-card">
+        <div><small>In Progress</small><strong>{{ in_progress_task_count }}</strong></div>
+        <span class="metric-icon orange"><svg><use href="#icon-clock"></use></svg></span>
+        <em>Tasks currently in progress</em>
+      </article>
+      <article class="metric-card">
+        <div><small>High Priority</small><strong>{{ high_priority_task_count }}</strong></div>
+        <span class="metric-icon green"><svg><use href="#icon-bell"></use></svg></span>
+        <em>Important tasks not completed yet</em>
+      </article>
+    </section>
+
+    <section class="role-layout mt-4">
+      <!-- This section shows all tasks that belong to the lead's team. -->
+      <article class="panel">
+        <div class="section-head">
+          <div>
+            <h2>Team Task Board</h2>
+            <p class="panel-subtitle">Lead focuses on task ownership and delivery state.</p>
+          </div>
+          <a href="{% url 'tasks' %}">Open Tasks</a>
+        </div>
+        <div class="table-responsive">
+          <table class="table data-table align-middle">
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th>Project</th>
+                <th>Member</th>
+                <th>Status</th>
+                <th>Priority</th>
+                <th>Due</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in team_task_rows %}
+                <tr data-search-text="{{ row.title }} {{ row.project_name }} {{ row.member_name }} {{ row.task_status }} {{ row.task_priority }}">
+                  <td>
+                    <div class="title-cell">
+                      <span class="summary-icon"><svg><use href="#icon-task"></use></svg></span>
+                      <div>
+                        <strong>{{ row.title }}</strong>
+                        <small>{{ row.description }}</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>{{ row.project_name }}</td>
+                  <td>{{ row.member_name }}</td>
+                  <td><span class="status-pill {{ row.status_class }}">{{ row.task_status }}</span></td>
+                  <td><span class="status-pill {{ row.priority_class }}">{{ row.task_priority }}</span></td>
+                  <td>
+                    {% if row.task_due_date %}
+                      {{ row.task_due_date|date:"M d, Y" }}
+                    {% else %}
+                      No due date
+                    {% endif %}
+                  </td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="6">No tasks found for this team.</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <!-- This section shows each member and their current active task. -->
+      <aside class="side-panel">
+        <div class="section-head">
+          <div>
+            <h2>Team Work</h2>
+            <p class="panel-subtitle">Lead sees each member's current work.</p>
+          </div>
+        </div>
+        <div class="stack-list">
+          {% for item in team_work_data %}
+            <div class="stack-item" data-search-text="{{ item.member_name }} {{ item.task_title }} {{ item.task_status }}">
+              <span class="dot orange"></span>
+              <div>
+                <strong>{{ item.member_name }}</strong>
+                <small>{{ item.member_role }} - {{ item.task_title }}</small>
+              </div>
+              <span class="status-pill {{ item.status_class }}">{{ item.task_status }}</span>
+            </div>
+          {% empty %}
+            <div class="stack-item">
+              <span class="dot"></span>
+              <div>
+                <strong>No members found</strong>
+                <small>This lead has no team members yet.</small>
+              </div>
+              <span class="status-pill status-todo">Empty</span>
+            </div>
+          {% endfor %}
+        </div>
+      </aside>
+    </section>
+
+    <!-- This section shows tasks that need lead attention. -->
+    <section class="panel mt-4">
+      <div class="section-head">
+        <div>
+          <h2>Lead Review Queue</h2>
+          <p class="panel-subtitle">Work that needs lead attention before moving ahead.</p>
+        </div>
+      </div>
+      <div class="focus-panel">
+        {% for task in lead_review_tasks %}
+          <div class="focus-row" data-search-text="{{ task.title }} {{ task.member_name }} {{ task.badge_text }}">
+            <span class="badge-pill {{ task.badge_class }}">{{ task.badge_text }}</span>
+            <div>
+              <strong>{{ task.title }}</strong>
+              <small>{{ task.reason }} Assigned to {{ task.member_name }}.</small>
+            </div>
+            <span>
+              {% if task.due_date %}
+                {{ task.due_date|date:"M d" }}
+              {% else %}
+                No date
+              {% endif %}
+            </span>
+          </div>
+        {% empty %}
+          <div class="focus-row">
+            <span class="badge-pill badge-blue">Clear</span>
+            <div>
+              <strong>No review items</strong>
+              <small>No urgent or high-priority tasks need review now.</small>
+            </div>
+            <span>Good</span>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+  </main>
+
+  <!-- This modal opens when the lead clicks Assign Task. -->
+  <aside class="workspace-modal" data-modal aria-hidden="true">
+    <button class="modal-backdrop-lite" type="button" data-close-modal aria-label="Close modal"></button>
+    <section class="modal-panel" aria-label="Assign task form">
+      <header class="modal-head">
+        <h2>Assign New Task</h2>
+        <button class="plain-icon" type="button" data-close-modal aria-label="Close modal">&times;</button>
+      </header>
+      <div class="modal-body">
+        <form class="form-grid" method="post" action="{% url 'dashboard' %}">
+          {% csrf_token %}
+          <input type="hidden" name="form_name" value="assign_task">
+
+          <!-- This field stores the task title. -->
+          <label>
+            Task title
+            <input class="field" type="text" name="title" placeholder="Example: Build login API" required>
+          </label>
+
+          <!-- This field selects the project where the task belongs. -->
+          <label>
+            Project
+            <select class="field" name="project" required>
+              <option value="">Select project</option>
+              {% for project in available_projects %}
+                <option value="{{ project.id }}">{{ project.name }}</option>
+              {% endfor %}
+            </select>
+          </label>
+
+          <!-- This field selects the team member who will receive the task. -->
+          <label>
+            Assign to
+            <select class="field" name="assigned_to" required>
+              <option value="">Select member</option>
+              {% for member in team_members %}
+                <option value="{{ member.user.id }}">{{ member.user.username }} - {{ member.get_role_display }}</option>
+              {% endfor %}
+            </select>
+          </label>
+
+          <!-- These fields store status, priority, and due date. -->
+          <label>
+            Status
+            <select class="field" name="status">
+              <option value="todo">To Do</option>
+              <option value="in_progress">In Progress</option>
+              <option value="done">Done</option>
+            </select>
+          </label>
+          <label>
+            Priority
+            <select class="field" name="priority">
+              <option value="low">Low</option>
+              <option value="medium" selected>Medium</option>
+              <option value="high">High</option>
+            </select>
+          </label>
+          <label>
+            Due date
+            <input class="field" type="date" name="due_date">
+          </label>
+
+          <!-- This field stores extra task details. -->
+          <label>
+            Description
+            <textarea class="field" name="description" placeholder="Write what the member should complete"></textarea>
+          </label>
+
+          <div class="modal-actions">
+            <button class="work-button ghost-button" type="button" data-close-modal>Cancel</button>
+            <button class="work-button primary-button" type="submit">Assign Task</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </aside>
+
+  <script src="{% static 'js/core/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'js/workspace.js' %}"></script>
+</body>
+</html>

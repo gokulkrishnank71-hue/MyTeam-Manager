@@ -1,0 +1,128 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Member Dashboard - MyTeam Manager</title>
+  <link rel="icon" href="{% static 'img/favicon.png' %}">
+  <link rel="stylesheet" href="{% static 'css/material-dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'css/workspace.css' %}">
+  <link rel="stylesheet" href="{% static 'css/role-dashboards.css' %}">
+</head>
+<body class="workspace-page role-shell">
+  {% include 'includes/module_icons.html' %}
+
+  <aside class="module-sidebar">
+    <a class="brand" href="{% url 'dashboard' %}">
+      <span class="brand-icon"><svg><use href="#icon-logo"></use></svg></span>
+      <span>MyTeam Manager</span>
+    </a>
+    <nav class="sidebar-nav" aria-label="Member navigation">
+      <a class="nav-link active" href="{% url 'dashboard' %}"><svg><use href="#icon-dashboard"></use></svg><span>Dashboard</span></a>
+      <a class="nav-link" href="{% url 'tasks' %}"><svg><use href="#icon-task"></use></svg><span>My Tasks</span></a>
+      <a class="nav-link" href="{% url 'projects' %}"><svg><use href="#icon-folder"></use></svg><span>Projects</span></a>
+      <a class="nav-link" href="{% url 'calendar' %}"><svg><use href="#icon-calendar"></use></svg><span>Calendar</span></a>
+      <a class="nav-link" href="{% url 'notifications' %}"><svg><use href="#icon-bell"></use></svg><span>Notifications</span></a>
+    </nav>
+    <nav class="sidebar-account" aria-label="Account navigation">
+      <p class="nav-section">Account</p>
+      <a class="nav-link" href="{% url 'profile' %}"><svg><use href="#icon-user"></use></svg><span>Profile</span></a>
+    </nav>
+  </aside>
+
+  <main class="module-main">
+    {% include 'includes/module_topbar.html' with page_title='Member' search_id='memberSearch' search_placeholder='Search my work...' %}
+
+    <section class="page-heading">
+      <div>
+        <span class="role-kicker">Member workspace</span>
+        <h1>My Work Today</h1>
+        <p>Focus on assigned tasks, comments, files, and upcoming deadlines.</p>
+      </div>
+      <div class="heading-actions">
+        <button class="work-button primary-button" type="button"><svg><use href="#icon-check"></use></svg><span>Update Status</span></button>
+      </div>
+    </section>
+
+    <section class="metric-grid" aria-label="Member summary">
+      <article class="metric-card"><div><small>My Tasks</small><strong>1</strong></div><span class="metric-icon"><svg><use href="#icon-task"></use></svg></span><em>Assigned in Backend Team</em></article>
+      <article class="metric-card"><div><small>Due Soon</small><strong>1</strong></div><span class="metric-icon orange"><svg><use href="#icon-calendar"></use></svg></span><em>Authentication API by Jun 28</em></article>
+      <article class="metric-card"><div><small>Comments</small><strong>3</strong></div><span class="metric-icon blue"><svg><use href="#icon-bell"></use></svg></span><em>Latest lead feedback</em></article>
+      <article class="metric-card"><div><small>Files</small><strong>2</strong></div><span class="metric-icon green"><svg><use href="#icon-folder"></use></svg></span><em>Attached references</em></article>
+    </section>
+
+    <section class="role-layout mt-4">
+      <article class="panel">
+        <div class="section-head">
+          <div>
+            <h2>Assigned Task</h2>
+            <p class="panel-subtitle">Member sees own work first.</p>
+          </div>
+          <span class="badge-pill badge-orange">In Progress</span>
+        </div>
+        <div class="focus-panel">
+          <div class="focus-row">
+            <span class="summary-icon"><svg><use href="#icon-task"></use></svg></span>
+            <div>
+              <strong>Build user authentication API</strong>
+              <small>Create login, logout, and user validation endpoints for the system.</small>
+            </div>
+            <span>Jun 28</span>
+          </div>
+          <div class="focus-row">
+            <span class="badge-pill badge-blue">Next</span>
+            <div>
+              <strong>Confirm username login flow</strong>
+              <small>Check sign-in form, authentication view, and redirect to dashboard.</small>
+            </div>
+            <span>Today</span>
+          </div>
+          <div class="focus-row">
+            <span class="badge-pill badge-gray">Files</span>
+            <div>
+              <strong>API notes and endpoint checklist</strong>
+              <small>Use attached files when real task file workflow is connected.</small>
+            </div>
+            <span>2 files</span>
+          </div>
+        </div>
+      </article>
+
+      <aside class="side-panel">
+        <div class="section-head">
+          <div>
+            <h2>My Timeline</h2>
+            <p class="panel-subtitle">Personal work updates</p>
+          </div>
+        </div>
+        <div class="role-timeline">
+          <div class="timeline-item"><span class="timeline-dot orange"></span><div><strong>Continue auth API</strong><small>Move login validation to working state.</small></div></div>
+          <div class="timeline-item"><span class="timeline-dot"></span><div><strong>Reply to lead comment</strong><small>Answer question about username versus email login.</small></div></div>
+          <div class="timeline-item"><span class="timeline-dot green"></span><div><strong>Review profile fields</strong><small>User and profile tables are ready for task workflow.</small></div></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="panel mt-4">
+      <div class="section-head">
+        <div>
+          <h2>Project Context</h2>
+          <p class="panel-subtitle">Member gets enough context without company management controls.</p>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table data-table align-middle">
+          <thead><tr><th>Project</th><th>Team</th><th>Lead</th><th>Status</th><th>Due</th></tr></thead>
+          <tbody>
+            <tr><td><div class="title-cell"><span class="summary-icon blue"><svg><use href="#icon-folder"></use></svg></span><div><strong>Employee Task Tracker API</strong><small>Backend system project</small></div></div></td><td>Backend Team</td><td>Backend Lead</td><td><span class="status-pill status-progress">In Progress</span></td><td>Jul 15</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="{% static 'js/core/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'js/workspace.js' %}"></script>
+</body>
+</html>
